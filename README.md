@@ -4,7 +4,7 @@ This repository holds the machine-readable schema of the **Common Transaction Re
 
 The schema is written in JSON Schema draft 2020-12. Section references (§) in the schema and in this document are to the text of the Standard, published at <https://ctres.org> and in the repository [ctres-standard/spec](https://github.com/ctres-standard/spec). Where the schema and the text differ, the text prevails and the difference is a defect in the schema.
 
-Status: draft for consultation. The schema carries no regulatory force and is not endorsed by any authority.
+Status: open draft for consultation with authorities and industry. Like the Standard, the schema is independent and carries no regulatory force.
 
 ## Contents
 
