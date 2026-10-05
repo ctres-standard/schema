@@ -1,0 +1,15 @@
+{
+  "provider_id": "PSP-03",
+  "legal_name": "Example Payments Ltd (fictional)",
+  "provider_role": "payment_service_provider",
+  "authorising_authority": "Example Central Bank (fictional)",
+  "licence_ref": "XJ-CB-PI-0331",
+  "authorisation_country": "XJ",
+  "regulator_notification_status": "notified",
+  "due_diligence_completed_at": "2025-02-17",
+  "next_review_at": "2027-02-17",
+  "data_locations": [
+    "XJ"
+  ],
+  "evidence_ref": "DD-PSP-03-2025"
+}

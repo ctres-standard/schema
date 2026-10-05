@@ -1,0 +1,18 @@
+{
+  "instrument_id": "I-77812",
+  "player_ref": "P-20931",
+  "player_ref_scope": "licence-A",
+  "rail": "card",
+  "instrument_detail": {
+    "bin": "49871234",
+    "last_four": "0042",
+    "card_token": "TKN-5F2A9C"
+  },
+  "funding_type": "debit",
+  "issuer_country": "XJ",
+  "holder_match": "match",
+  "holder_verification_method": "issuer_check",
+  "verified_at": "2026-09-12T14:03:55+01:00",
+  "verified_by": "PSP-03",
+  "payout_status": "active"
+}

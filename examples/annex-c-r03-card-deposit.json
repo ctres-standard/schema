@@ -1,0 +1,34 @@
+{
+  "tx_id": "D-2026-104511",
+  "player_ref": "P-20931",
+  "player_ref_scope": "licence-A",
+  "direction": "deposit",
+  "rail": "card",
+  "instrument_id": "I-77812",
+  "provider_id": "PSP-03",
+  "rail_reference_type": "acquirer_reference",
+  "rail_reference": "74987506291000123456789",
+  "amount": "150.00",
+  "currency_or_asset": "EUR",
+  "amount_reporting_ccy": "150.00",
+  "fx_rate": "1",
+  "fx_source": "same_as_reporting_currency",
+  "initiated_at": "2026-11-04T19:02:11+01:00",
+  "settled_at": "2026-11-05T06:00:00+01:00",
+  "credited_at": "2026-11-04T19:02:14+01:00",
+  "account_currency": "EUR",
+  "credited_amount": "150.00",
+  "ledger_entry_ref": "L-552019",
+  "fees": {
+    "currency_or_asset": "EUR",
+    "rail": "0.00",
+    "provider": "0.00",
+    "network": "0.00"
+  },
+  "check_ids": [
+    "C-90211",
+    "C-90212"
+  ],
+  "limit_check": "within_limit",
+  "outcome": "accepted"
+}

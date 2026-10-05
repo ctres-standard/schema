@@ -1,0 +1,37 @@
+{
+  "tx_id": "D-2026-000512",
+  "player_ref": "P-1190",
+  "player_ref_scope": "licence-A",
+  "direction": "deposit",
+  "rail": "virtual_asset",
+  "instrument_id": "I-VA-2210",
+  "provider_id": "VASP-01",
+  "rail_reference_type": "provider_reference",
+  "rail_reference": "INV-77120-AA",
+  "amount": "250.000000",
+  "currency_or_asset": "USDT-ERC20",
+  "amount_reporting_ccy": "250.00",
+  "fx_rate": "1.00",
+  "fx_source": "VASP-01 reference rate at crediting",
+  "chain": "ethereum",
+  "off_chain_movement": true,
+  "initiated_at": "2026-11-04T10:09:31Z",
+  "settled_at": "2026-11-04T10:12:40Z",
+  "credited_at": "2026-11-04T10:12:44Z",
+  "account_currency": "USD",
+  "account_fx_rate": "1.00",
+  "credited_amount": "250.00",
+  "ledger_entry_ref": "L-120044",
+  "fees": {
+    "currency_or_asset": "USDT-ERC20",
+    "rail": "0.000000",
+    "provider": "0.000000",
+    "network": "0.000000"
+  },
+  "check_ids": [
+    "C-77401"
+  ],
+  "outcome": "accepted",
+  "attestation_ref": "ATT-2026-11-VASP1",
+  "location_id": "L-VASP-01-POOL"
+}

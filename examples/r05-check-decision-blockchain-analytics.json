@@ -1,0 +1,17 @@
+{
+  "check_id": "C-77588",
+  "subject_type": "address",
+  "subject_ref": "0x4b9d1c0e7a3f5b2d8e6c1a9f0b7d3e5c2a8f6d14",
+  "check_type": "blockchain_analytics",
+  "register_or_provider": "Analytics provider BAP-01",
+  "version": "7.3",
+  "performed_by_party": "provider",
+  "performed_at": "2026-11-09T08:02:31Z",
+  "result_class": "low",
+  "decision": "allow",
+  "decided_by": "automated",
+  "exposure_categories": [
+    "exchange"
+  ],
+  "evidence_ref": "EV-BAP-2026-11-09-77588"
+}

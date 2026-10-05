@@ -1,0 +1,17 @@
+{
+  "location_id": "L-VASP-01-POOL",
+  "location_type": "crypto_wallet",
+  "purpose_class": "player_funds",
+  "provider_id": "VASP-01",
+  "identifier_masked": "Pooled account VASP-01/EXOPS",
+  "currency_or_asset": "USDT-ERC20",
+  "protection_mechanism": "segregated_account",
+  "custody_model": "omnibus_at_provider",
+  "controlling_entity": "Example Operations Ltd (synthetic)",
+  "location_jurisdiction": "XJ",
+  "opened_at": "2026-01-15T00:00:00Z",
+  "ownership_evidence_ref": "DOC-OWN-VASP-01",
+  "chain": "ethereum",
+  "temperature": "hot",
+  "key_control_model": "provider_managed"
+}

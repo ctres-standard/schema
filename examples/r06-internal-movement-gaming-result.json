@@ -1,0 +1,21 @@
+{
+  "movement_id": "M-2026-11-0051",
+  "source_location_id": "L-BANK-01",
+  "destination_location_id": "L-BANK-OPS-01",
+  "purpose": "sweep",
+  "crosses_purpose_class": true,
+  "justification_ref": "GGR-2026-W45",
+  "approved_by": "head_of_payments",
+  "approved_at": "2026-11-09T10:15:00+01:00",
+  "executed_at": "2026-11-09T10:22:31+01:00",
+  "rail_reference": "XJ-BANK-01-TRF-0091822",
+  "rail_reference_type": "provider_reference",
+  "amount": "73400.00",
+  "currency_or_asset": "EUR",
+  "fees": {
+    "currency_or_asset": "EUR",
+    "rail": "0.00",
+    "provider": "0.00",
+    "network": "0.00"
+  }
+}

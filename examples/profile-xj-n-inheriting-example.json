@@ -1,0 +1,48 @@
+{
+  "ctres_version": "1.0",
+  "profile_id": "XJ-N",
+  "profile_version": "1.0.0",
+  "title": "XJ-N — Northern Province of the Example Jurisdiction (fictional profile, for illustration only)",
+  "fictional": true,
+  "jurisdiction": {
+    "code": "XJ-N",
+    "name": "Northern Province of the Example Jurisdiction (fictional)"
+  },
+  "authorities": [
+    {
+      "name": "Northern Province Gaming Commission (fictional)",
+      "role": "gambling_regulator"
+    }
+  ],
+  "status": "indicative",
+  "effective_from": "2027-01-01",
+  "inherits_from": {
+    "profile_id": "XJ",
+    "profile_version": "1.0.0"
+  },
+  "parameters": {
+    "payout_time_limits": {
+      "reading": "stated",
+      "limits": [
+        {
+          "rule_id": "payout-province",
+          "deadline": {
+            "duration": "PT36H",
+            "clock_starts_at": "request"
+          }
+        }
+      ]
+    },
+    "data_location": {
+      "reading": "stated",
+      "permitted_locations": [
+        "XJ"
+      ],
+      "applies_to": [
+        "payment_data"
+      ],
+      "effective_from": "2027-01-01"
+    }
+  },
+  "notes": "Fictional. Demonstrates inheritance: only the parameter blocks that differ from the base profile XJ 1.0.0 are present."
+}

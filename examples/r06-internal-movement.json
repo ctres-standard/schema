@@ -1,0 +1,20 @@
+{
+  "movement_id": "M-2026-11-0042",
+  "source_location_id": "L-PSP-03-BAL",
+  "destination_location_id": "L-BANK-01",
+  "purpose": "settlement",
+  "crosses_purpose_class": false,
+  "approved_by": "rule:daily-settlement-v2",
+  "approved_at": "2026-11-05T06:00:00+01:00",
+  "executed_at": "2026-11-05T09:12:44+01:00",
+  "rail_reference": "SETT-PSP03-20261105-01",
+  "rail_reference_type": "provider_reference",
+  "amount": "48210.55",
+  "currency_or_asset": "EUR",
+  "fees": {
+    "currency_or_asset": "EUR",
+    "rail": "0.00",
+    "provider": "96.42",
+    "network": "0.00"
+  }
+}

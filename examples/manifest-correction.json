@@ -1,0 +1,108 @@
+{
+  "standard": "CTRES",
+  "standard_version": "1.0",
+  "package_id": "PKG-XJ-EGA-0001-2026-11-V2",
+  "licence_number": "XJ-EGA-0001",
+  "licensing_authority": "Example Gambling Authority (fictional)",
+  "licensee": "Example Operations Ltd (synthetic)",
+  "profile_id": "XJ",
+  "profile_version": "1.0.0",
+  "period_start": "2026-11-01T00:00:00+01:00",
+  "period_end": "2026-11-30T23:59:59+01:00",
+  "submission_mode": "periodic_package",
+  "reporting_currency": "EUR",
+  "conformance_level_declared": "level_2",
+  "records_start_date": "2026-01-15",
+  "files": [
+    {
+      "file": "R1_funds_locations.jsonl",
+      "record_type": "R1",
+      "record_count": 9,
+      "sha256": "6bed89cca45075ca063e82513ab0c5fb7dc6a5b3509a4168fc55d29a557ea788"
+    },
+    {
+      "file": "R2_payment_instrument_links.jsonl",
+      "record_type": "R2",
+      "record_count": 18422,
+      "sha256": "291fa8c9d87b9f9df4fc62377fff1b63274fc081e00c96065fcc13d5727011bb"
+    },
+    {
+      "file": "R3_deposits.jsonl",
+      "record_type": "R3",
+      "record_count": 96310,
+      "sha256": "6ccc93f628f2aa825e839711befc087f4328927efbe1fbd474ecb4f4f4609734"
+    },
+    {
+      "file": "R4_withdrawals.jsonl",
+      "record_type": "R4",
+      "record_count": 31877,
+      "sha256": "58e5e6f299e55680a216925a77bb0821af9572f7879ad533373f29ca42e4fb05"
+    },
+    {
+      "file": "R5_check_decisions.jsonl",
+      "record_type": "R5",
+      "record_count": 140215,
+      "sha256": "a3fbbfa669408076ab6652548094bb239719a6a713520daf1119dae898dda861"
+    },
+    {
+      "file": "R6_internal_movements.jsonl",
+      "record_type": "R6",
+      "record_count": 64,
+      "sha256": "f7ebe1d2c31325f5848e0eee84b8e1e9cc7d6e0da0b7abe2114f2265324d538a"
+    },
+    {
+      "file": "R7_reconciliation_statements.jsonl",
+      "record_type": "R7",
+      "record_count": 39,
+      "sha256": "ba4ed66066a26a2d2cffabb144dd0471fe28b83628d53f15f7dcb2a961a24b88"
+    },
+    {
+      "file": "R8_exceptions.jsonl",
+      "record_type": "R8",
+      "record_count": 27,
+      "sha256": "afc881260b958148019221e26ead358747c737c21bb76447aad8858202e34b6b"
+    },
+    {
+      "file": "R9_incidents.jsonl",
+      "record_type": "R9",
+      "record_count": 1,
+      "sha256": "824a364ed38ffeacf6cde10bc3c875e1c4fdcc67bfc62085ae063bf58978454a"
+    },
+    {
+      "file": "R10_provider_register.jsonl",
+      "record_type": "R10",
+      "record_count": 6,
+      "sha256": "b5b1dac24af2b63eabf5a589be897eaa1de83b198f004f9d8a2c290f607dad7c"
+    },
+    {
+      "file": "R11_provider_attestations.jsonl",
+      "record_type": "R11",
+      "record_count": 1,
+      "sha256": "fb7d72f38c0333655fdb6ab78c834def82be50cbbe3b57a6a7bb59aadf45a6ee"
+    }
+  ],
+  "generating_software": "example-ctres-exporter",
+  "generating_software_version": "0.1.0",
+  "report_reference_counts": [
+    {
+      "report_type": "cash_threshold_report",
+      "total": 3,
+      "filed_by_deadline": 3,
+      "filed_after_deadline": 0,
+      "not_filed": 0
+    },
+    {
+      "report_type": "suspicious_transaction_report",
+      "total": 1,
+      "filed_by_deadline": 1,
+      "filed_after_deadline": 0,
+      "not_filed": 0
+    }
+  ],
+  "synthetic": true,
+  "supersedes": {
+    "package_id": "PKG-XJ-EGA-0001-2026-11-V1",
+    "reason": "R7 location statement for L-BANK-01 restated after exception E-2026-1107 was resolved.",
+    "manifest_sha256": "4ddea5ea5c599e92384d3cd21aec55d4cb6d3a013adef1f05898eed93b155e3a"
+  }
+}

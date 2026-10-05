@@ -1,0 +1,16 @@
+{
+  "provider_id": "VASP-01",
+  "legal_name": "Example Virtual Asset Services Ltd (fictional)",
+  "provider_role": "virtual_asset_service_provider",
+  "authorising_authority": "Example Financial Services Authority (fictional)",
+  "licence_ref": "XJ-FSA-VASP-0007",
+  "authorisation_country": "XJ",
+  "regulator_notification_status": "approved",
+  "due_diligence_completed_at": "2026-01-08",
+  "next_review_at": "2027-01-08",
+  "data_locations": [
+    "XJ"
+  ],
+  "travel_rule_capable": true,
+  "evidence_ref": "DD-VASP-01-2026"
+}

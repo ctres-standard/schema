@@ -1,0 +1,16 @@
+{
+  "instrument_id": "I-MM-0931",
+  "player_ref": "P-55102",
+  "player_ref_scope": "licence-A",
+  "rail": "mobile_money",
+  "instrument_detail": {
+    "phone_number_hash": "56dc6a5016fa84f9d85d09b3bb71648962fcff4bdc505fa5fb4f4118a060e292",
+    "mobile_operator_id": "MMO-01"
+  },
+  "holder_match": "match",
+  "holder_verification_method": "mobile_operator_kyc",
+  "verified_at": "2026-08-20T11:02:13+03:00",
+  "verified_by": "MMO-01",
+  "national_id_match": "match",
+  "payout_status": "active"
+}

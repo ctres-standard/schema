@@ -1,0 +1,19 @@
+{
+  "statement_id": "COV-2026-11-04-LIC-A",
+  "kind": "coverage",
+  "period_start": "2026-11-04T00:00:00+01:00",
+  "period_end": "2026-11-04T23:59:59+01:00",
+  "currency_or_asset": "EUR",
+  "player_balances_total": "1840220.15",
+  "pending_withdrawals_total": "61200.00",
+  "open_bets_total": "88415.40",
+  "player_liability_total": "1989835.55",
+  "funds_held": {
+    "segregated_account": "1902400.00",
+    "guarantee": "150000.00"
+  },
+  "in_transit_total": "41880.10",
+  "shortfall": "0.00",
+  "prepared_by": "finance_ops",
+  "reviewed_by": "compliance_officer"
+}

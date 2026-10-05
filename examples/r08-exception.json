@@ -1,0 +1,19 @@
+{
+  "exception_id": "E-2026-1107",
+  "category": "external_movement_without_ledger_entry",
+  "raised_at": "2026-11-28T02:10:00+01:00",
+  "raised_by": "automated_reconciliation",
+  "source_statement_id": "REC-2026-11-L-BANK-01",
+  "related_record_ids": [
+    "BANK-01-TXN-88120443"
+  ],
+  "amount": "150.00",
+  "currency_or_asset": "EUR",
+  "amount_reporting_ccy": "150.00",
+  "status": "resolved",
+  "resolved_at": "2026-12-03T10:20:00+01:00",
+  "age_days": 5,
+  "resolution_code": "ledger_entry_posted",
+  "resolution_note": "Bank credit identified as a returned payout; ledger entry L-611902 posted.",
+  "owner": "finance_ops"
+}

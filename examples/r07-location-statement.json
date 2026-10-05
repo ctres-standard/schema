@@ -1,0 +1,26 @@
+{
+  "statement_id": "REC-2026-11-L-BANK-01",
+  "kind": "location",
+  "period_start": "2026-11-01T00:00:00+01:00",
+  "period_end": "2026-11-30T23:59:59+01:00",
+  "currency_or_asset": "EUR",
+  "location_id": "L-BANK-01",
+  "external_source_type": "bank_statement",
+  "opening_balance_external": "1715300.00",
+  "closing_balance_external": "1902400.00",
+  "opening_balance_ledger": "1715300.00",
+  "closing_balance_ledger": "1902250.00",
+  "inflow_total": "2310450.00",
+  "outflow_total": "2123350.00",
+  "fees_total": "0.00",
+  "unexplained_delta": "150.00",
+  "unexplained_delta_reporting_ccy": "150.00",
+  "exception_ids": [
+    "E-2026-1107"
+  ],
+  "evidence_refs": [
+    "STMT-BANK-01-2026-11"
+  ],
+  "prepared_by": "finance_ops",
+  "reviewed_by": "compliance_officer"
+}

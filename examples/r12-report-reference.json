@@ -1,0 +1,13 @@
+{
+  "report_reference_id": "RR-2026-11-0009",
+  "report_type": "cash_threshold_report",
+  "destination_authority": "Example Financial Intelligence Unit (fictional)",
+  "channel": "goaml",
+  "profile_rule_ref": "XJ@1.0.0#rep-cash-threshold",
+  "related_record_ids": [
+    "D-2026-200417"
+  ],
+  "deadline_at": "2026-11-11T23:59:59+01:00",
+  "filed_at": "2026-11-07T10:31:00+01:00",
+  "receipt_ref": "FIU-ACK-2026-000918"
+}

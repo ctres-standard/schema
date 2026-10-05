@@ -1,0 +1,14 @@
+{
+  "location_id": "L-BANK-01",
+  "location_type": "bank_account",
+  "purpose_class": "player_funds",
+  "provider_id": "BANK-01",
+  "identifier_masked": "XJ00 **** **** **** 7781",
+  "currency_or_asset": "EUR",
+  "protection_mechanism": "segregated_account",
+  "custody_model": "direct",
+  "controlling_entity": "Example Operations Ltd (synthetic)",
+  "location_jurisdiction": "XJ",
+  "opened_at": "2025-03-01T00:00:00+01:00",
+  "ownership_evidence_ref": "DOC-OWN-BANK-01"
+}

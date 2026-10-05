@@ -1,0 +1,17 @@
+{
+  "instrument_id": "I-VA-2210",
+  "player_ref": "P-1190",
+  "player_ref_scope": "licence-A",
+  "rail": "virtual_asset",
+  "instrument_detail": {
+    "chain": "ethereum",
+    "address": "0x4b9d1c0e7a3f5b2d8e6c1a9f0b7d3e5c2a8f6d14",
+    "unique_deposit_address": false,
+    "link_source": "player_declared"
+  },
+  "holder_match": "match",
+  "holder_verification_method": "signed_message",
+  "verified_at": "2026-10-02T09:41:00Z",
+  "verified_by": "wallet-verification-service",
+  "payout_status": "active"
+}

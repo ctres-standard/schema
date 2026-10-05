@@ -1,0 +1,37 @@
+{
+  "tx_id": "D-2026-200417",
+  "player_ref": "P-40877",
+  "player_ref_scope": "licence-A",
+  "direction": "deposit",
+  "rail": "cash",
+  "instrument_id": "I-CASH-0193",
+  "provider_id": "AGENT-05",
+  "rail_reference_type": "cash_receipt",
+  "rail_reference": "RCPT-0193-118-004471",
+  "amount": "12000.00",
+  "currency_or_asset": "EUR",
+  "amount_reporting_ccy": "12000.00",
+  "fx_rate": "1",
+  "fx_source": "same_as_reporting_currency",
+  "initiated_at": "2026-11-06T16:41:00+01:00",
+  "settled_at": "2026-11-06T16:41:00+01:00",
+  "credited_at": "2026-11-06T16:43:27+01:00",
+  "account_currency": "EUR",
+  "credited_amount": "12000.00",
+  "ledger_entry_ref": "L-610233",
+  "fees": {
+    "currency_or_asset": "EUR",
+    "rail": "0.00",
+    "provider": "0.00",
+    "network": "0.00"
+  },
+  "check_ids": [
+    "C-93001",
+    "C-93002"
+  ],
+  "limit_check": "within_limit",
+  "outcome": "accepted",
+  "retail_point_id": "RP-0193",
+  "cashier_ref": "CSH-118",
+  "location_id": "L-CASH-0193"
+}

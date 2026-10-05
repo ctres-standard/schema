@@ -1,0 +1,40 @@
+{
+  "tx_id": "W-2026-220871",
+  "player_ref": "P-31007",
+  "player_ref_scope": "licence-A",
+  "direction": "withdrawal",
+  "rail": "bank_transfer",
+  "instrument_id": "I-77990",
+  "provider_id": "PSP-21",
+  "rail_reference_type": "instant_payment_e2e_id",
+  "rail_reference": "E1234567820261104193512345678901",
+  "amount": "420.00",
+  "currency_or_asset": "BRL",
+  "amount_reporting_ccy": "420.00",
+  "fx_rate": "1",
+  "fx_source": "same_as_reporting_currency",
+  "requested_at": "2026-11-04T19:30:02-03:00",
+  "approved_by": "rule:auto-payout-v4",
+  "approved_at": "2026-11-04T19:30:05-03:00",
+  "initiated_at": "2026-11-04T19:35:10-03:00",
+  "settled_at": "2026-11-04T19:35:12-03:00",
+  "credited_at": "2026-11-04T19:30:02-03:00",
+  "paid_at": "2026-11-04T19:35:12-03:00",
+  "destination_rule": "same_instrument",
+  "source_instrument_ids": [
+    "I-77990"
+  ],
+  "account_currency": "BRL",
+  "credited_amount": "-420.00",
+  "ledger_entry_ref": "L-903311",
+  "fees": {
+    "currency_or_asset": "BRL",
+    "rail": "0.00",
+    "provider": "0.00",
+    "network": "0.00"
+  },
+  "check_ids": [
+    "C-91002"
+  ],
+  "outcome": "accepted"
+}

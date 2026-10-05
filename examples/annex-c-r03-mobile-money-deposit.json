@@ -1,0 +1,43 @@
+{
+  "tx_id": "D-2026-339120",
+  "player_ref": "P-55102",
+  "player_ref_scope": "licence-A",
+  "direction": "deposit",
+  "rail": "mobile_money",
+  "instrument_id": "I-MM-0931",
+  "provider_id": "MMO-01",
+  "rail_reference_type": "operator_receipt",
+  "rail_reference": "TJK4X9ZQ2L",
+  "authority_reference": "CMS-20261104-0081734",
+  "amount": "1000.00",
+  "currency_or_asset": "KES",
+  "amount_reporting_ccy": "1000.00",
+  "fx_rate": "1",
+  "fx_source": "same_as_reporting_currency",
+  "initiated_at": "2026-11-04T20:15:02+03:00",
+  "settled_at": "2026-11-04T20:15:06+03:00",
+  "credited_at": "2026-11-04T20:15:09+03:00",
+  "account_currency": "KES",
+  "credited_amount": "950.00",
+  "tax_lines": [
+    {
+      "type": "excise_on_deposit",
+      "rate": "0.05",
+      "amount": "50.00",
+      "authority": "tax_authority",
+      "due_at": "2026-11-05",
+      "remittance_ref": "TR-20261105-01"
+    }
+  ],
+  "ledger_entry_ref": "L-881204",
+  "fees": {
+    "currency_or_asset": "KES",
+    "rail": "0.00",
+    "provider": "0.00",
+    "network": "0.00"
+  },
+  "check_ids": [
+    "C-71820"
+  ],
+  "outcome": "accepted"
+}

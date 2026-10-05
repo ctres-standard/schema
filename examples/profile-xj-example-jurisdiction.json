@@ -1,0 +1,441 @@
+{
+  "ctres_version": "1.0",
+  "profile_id": "XJ",
+  "profile_version": "1.0.0",
+  "title": "XJ — Example Jurisdiction (fictional profile, for illustration only)",
+  "fictional": true,
+  "jurisdiction": {
+    "code": "XJ",
+    "name": "Example Jurisdiction (fictional)"
+  },
+  "authorities": [
+    {
+      "name": "Example Gambling Authority (fictional)",
+      "role": "gambling_regulator"
+    },
+    {
+      "name": "Example Financial Intelligence Unit (fictional)",
+      "role": "financial_intelligence_unit"
+    },
+    {
+      "name": "Example Revenue Service (fictional)",
+      "role": "tax_authority"
+    }
+  ],
+  "status": "indicative",
+  "effective_from": "2026-10-01",
+  "market_status": "licensed",
+  "indexed_units": [
+    {
+      "unit_id": "XBU",
+      "name": "Example base unit (fictional)",
+      "currency": "EUR",
+      "values": [
+        {
+          "value": "25.00",
+          "effective_from": "2026-01-01",
+          "effective_to": "2026-12-31"
+        },
+        {
+          "value": "26.00",
+          "effective_from": "2027-01-01"
+        }
+      ]
+    }
+  ],
+  "parameters": {
+    "permitted_rails": {
+      "reading": "stated",
+      "rails": [
+        {
+          "rail": "card",
+          "status": "conditional",
+          "conditions": "Debit and prepaid cards only."
+        },
+        {
+          "rail": "bank_transfer",
+          "status": "permitted"
+        },
+        {
+          "rail": "emoney",
+          "status": "permitted"
+        },
+        {
+          "rail": "mobile_money",
+          "status": "permitted"
+        },
+        {
+          "rail": "carrier_billing",
+          "status": "prohibited"
+        },
+        {
+          "rail": "voucher",
+          "status": "permitted"
+        },
+        {
+          "rail": "cash",
+          "status": "conditional",
+          "conditions": "At licensed retail points only."
+        },
+        {
+          "rail": "virtual_asset",
+          "status": "conditional",
+          "conditions": "Through providers authorised in XJ; payouts in the asset deposited."
+        }
+      ],
+      "prohibited_funding_types": [
+        "credit",
+        "invoice",
+        "bnpl"
+      ],
+      "anonymous_instruments_prohibited": true,
+      "approved_providers_only": true
+    },
+    "holder_rules": {
+      "reading": "stated",
+      "instrument_in_player_name": "required",
+      "ownership_confirmation_thresholds": [
+        {
+          "rule_id": "own-deposit",
+          "applies_to": "deposit",
+          "threshold": {
+            "amount": "3000.00",
+            "currency": "EUR"
+          }
+        },
+        {
+          "rule_id": "own-withdrawal",
+          "applies_to": "withdrawal",
+          "threshold": {
+            "amount": "1000.00",
+            "currency": "EUR"
+          }
+        }
+      ],
+      "accepted_verification_methods": [
+        "issuer_check",
+        "bank_name_check",
+        "open_banking",
+        "mobile_operator_kyc",
+        "signed_message",
+        "provider_attestation"
+      ],
+      "national_id_match_required": false,
+      "third_party_payments": "prohibited"
+    },
+    "closed_loop": {
+      "reading": "stated",
+      "requirement": "required",
+      "permitted_destination_rules": [
+        "same_instrument",
+        "same_holder_other_instrument"
+      ],
+      "payout_routes": [
+        {
+          "rule_id": "route-high-value",
+          "amount_from": {
+            "amount": "20000.00",
+            "currency": "EUR"
+          },
+          "rails": [
+            "bank_transfer"
+          ]
+        }
+      ],
+      "same_asset_required": true
+    },
+    "check_thresholds": {
+      "reading": "stated",
+      "thresholds": [
+        {
+          "rule_id": "cdd-threshold",
+          "check_types": [
+            "identity",
+            "sanctions",
+            "pep"
+          ],
+          "purpose": "Customer due diligence",
+          "applies_to": "deposits_and_withdrawals",
+          "threshold": {
+            "amount": "2500.00",
+            "currency": "EUR"
+          },
+          "aggregation": {
+            "window_type": "rolling",
+            "length": "P90D",
+            "linked_transactions": true
+          }
+        },
+        {
+          "rule_id": "sof-indexed",
+          "check_types": [
+            "source_of_funds"
+          ],
+          "purpose": "Source-of-funds review",
+          "applies_to": "net_deposits",
+          "threshold": {
+            "units": "800",
+            "indexed_unit": "XBU"
+          },
+          "aggregation": {
+            "window_type": "calendar_month"
+          }
+        }
+      ]
+    },
+    "report_triggers": {
+      "reading": "stated",
+      "triggers": [
+        {
+          "rule_id": "rep-cash-threshold",
+          "report_type": "cash_threshold_report",
+          "destination_authority": "Example Financial Intelligence Unit (fictional)",
+          "channel": "goaml",
+          "threshold": {
+            "amount": "10000.00",
+            "currency": "EUR"
+          },
+          "aggregation": {
+            "window_type": "gaming_day"
+          },
+          "deadline": {
+            "duration": "P3D",
+            "day_basis": "business",
+            "clock_starts_at": "transaction"
+          }
+        },
+        {
+          "rule_id": "rep-suspicious",
+          "report_type": "suspicious_transaction_report",
+          "destination_authority": "Example Financial Intelligence Unit (fictional)",
+          "channel": "goaml",
+          "deadline": {
+            "duration": "P5D",
+            "day_basis": "business",
+            "clock_starts_at": "conclusion_of_suspicion"
+          }
+        },
+        {
+          "rule_id": "rep-incident",
+          "report_type": "regulator_notification",
+          "destination_authority": "Example Gambling Authority (fictional)",
+          "channel": "regulator_portal",
+          "deadline": {
+            "duration": "PT24H",
+            "clock_starts_at": "detection"
+          }
+        }
+      ]
+    },
+    "payout_time_limits": {
+      "reading": "stated",
+      "limits": [
+        {
+          "rule_id": "payout-standard",
+          "deadline": {
+            "duration": "P2D",
+            "day_basis": "business",
+            "clock_starts_at": "request"
+          }
+        }
+      ]
+    },
+    "taxes_at_payment": {
+      "reading": "stated",
+      "taxes": [
+        {
+          "rule_id": "tax-winnings",
+          "tax_type": "withholding_on_winnings",
+          "applies_to": "net_winnings",
+          "rate": "0.08",
+          "authority": "Example Revenue Service (fictional)",
+          "remittance_deadline": {
+            "day_of_following_month": 12
+          }
+        }
+      ]
+    },
+    "player_funds_protection": {
+      "reading": "stated",
+      "permitted_mechanisms": [
+        "segregated_account",
+        "trust",
+        "guarantee"
+      ],
+      "coverage": {
+        "minimum_ratio": "1.00",
+        "minimum_in_account_ratio": "0.85",
+        "liabilities_include": [
+          "player_balances",
+          "pending_withdrawals",
+          "open_bets"
+        ],
+        "funds_in_transit_counted": true,
+        "cure_deadline": {
+          "duration": "P2D",
+          "day_basis": "business",
+          "clock_starts_at": "detection"
+        },
+        "statement_frequency": "daily"
+      },
+      "guarantees": [
+        {
+          "purpose": "Payment of player balances on insolvency",
+          "amount": {
+            "amount": "250000.00",
+            "currency": "EUR"
+          }
+        }
+      ]
+    },
+    "submission": {
+      "reading": "stated",
+      "modes": [
+        {
+          "mode": "periodic_package",
+          "cadence": "monthly",
+          "deadline": {
+            "day_of_following_month": 20
+          },
+          "record_types": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5",
+            "R6",
+            "R7",
+            "R8",
+            "R9",
+            "R10",
+            "R11"
+          ],
+          "transaction_extract": "full"
+        },
+        {
+          "mode": "on_demand",
+          "deadline": {
+            "duration": "P5D",
+            "day_basis": "business",
+            "clock_starts_at": "request"
+          }
+        },
+        {
+          "mode": "incident",
+          "deadline": {
+            "duration": "PT24H",
+            "clock_starts_at": "detection"
+          },
+          "record_types": [
+            "R9"
+          ]
+        }
+      ],
+      "manifest_signature_required": false,
+      "formats": [
+        "jsonl"
+      ],
+      "report_references_in_packages": "counts_only"
+    },
+    "cross_operator_limits": {
+      "reading": "stated",
+      "limits": [
+        {
+          "rule_id": "col-monthly-deposits",
+          "register": "Example central limit register (fictional)",
+          "applies_to": "deposits",
+          "limit": {
+            "amount": "1500.00",
+            "currency": "EUR"
+          },
+          "aggregation": {
+            "window_type": "calendar_month"
+          },
+          "query_before": "each_deposit",
+          "raise_condition": "Affordability review recorded as an R5 check of type financial_risk."
+        }
+      ]
+    },
+    "eligibility_screening": {
+      "reading": "stated",
+      "registers": [
+        {
+          "rule_id": "elig-self-exclusion",
+          "register": "Example national self-exclusion register (fictional)",
+          "check_type": "self_exclusion",
+          "population": [
+            "self_excluded"
+          ],
+          "timing": [
+            "account_opening",
+            "each_deposit"
+          ]
+        }
+      ],
+      "minimum_age": 18
+    },
+    "mandatory_hubs": {
+      "reading": "not_found"
+    },
+    "instrument_origin": {
+      "reading": "stated",
+      "domestic_instruments_only": false,
+      "settlement_currencies": [
+        "EUR"
+      ],
+      "nominated_accounts_per_player": 3
+    },
+    "withdrawal_conditions": {
+      "reading": "to_be_confirmed",
+      "note": "Draft rules would limit withdrawals to three per day; not adopted at the effective date.",
+      "max_withdrawals_per_day": 3
+    },
+    "payment_blocking": {
+      "reading": "stated",
+      "lists": [
+        {
+          "list_id": "block-unlicensed",
+          "name": "Example list of unlicensed operators (fictional)",
+          "binds": [
+            "payment_providers",
+            "internet_providers"
+          ],
+          "scope": "operator_or_domain",
+          "action_deadline": {
+            "duration": "P5D",
+            "day_basis": "business",
+            "clock_starts_at": "listing"
+          }
+        }
+      ]
+    },
+    "data_vault": {
+      "reading": "stated",
+      "required": false
+    },
+    "data_location": {
+      "reading": "stated",
+      "permitted_locations": [
+        "XJ",
+        "EEA"
+      ],
+      "applies_to": [
+        "all_data"
+      ]
+    },
+    "retention": {
+      "reading": "stated",
+      "periods": [
+        {
+          "record_category": "all_records",
+          "period": "P6Y",
+          "starts_at": "end_of_relationship"
+        }
+      ]
+    }
+  },
+  "sources": [
+    "None. This profile is fictional and cites no real source."
+  ],
+  "notes": "Example profile for the CTRES schema package. XJ is an ISO 3166-1 user-assigned code. Every authority, register, threshold and deadline in this file is invented for illustration and describes no real jurisdiction."
+}

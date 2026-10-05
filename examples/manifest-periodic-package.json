@@ -1,0 +1,103 @@
+{
+  "standard": "CTRES",
+  "standard_version": "1.0",
+  "package_id": "PKG-XJ-EGA-0001-2026-11-V1",
+  "licence_number": "XJ-EGA-0001",
+  "licensing_authority": "Example Gambling Authority (fictional)",
+  "licensee": "Example Operations Ltd (synthetic)",
+  "profile_id": "XJ",
+  "profile_version": "1.0.0",
+  "period_start": "2026-11-01T00:00:00+01:00",
+  "period_end": "2026-11-30T23:59:59+01:00",
+  "submission_mode": "periodic_package",
+  "reporting_currency": "EUR",
+  "conformance_level_declared": "level_2",
+  "records_start_date": "2026-01-15",
+  "files": [
+    {
+      "file": "R1_funds_locations.jsonl",
+      "record_type": "R1",
+      "record_count": 9,
+      "sha256": "ffc1ea70abfe4699eb10f6c46787c3849528efc27300afc35d0d457d8fe8f283"
+    },
+    {
+      "file": "R2_payment_instrument_links.jsonl",
+      "record_type": "R2",
+      "record_count": 18422,
+      "sha256": "df7a66a4c50304994cd61ad9620a69a7ed4969b09a8e22f4ed668e93630b60b0"
+    },
+    {
+      "file": "R3_deposits.jsonl",
+      "record_type": "R3",
+      "record_count": 96310,
+      "sha256": "a450573f87ffd1f1b6d104bdc340dada0e02ee55226f0a8392118d16ff880955"
+    },
+    {
+      "file": "R4_withdrawals.jsonl",
+      "record_type": "R4",
+      "record_count": 31877,
+      "sha256": "2b771d36c526bbb4cddc5ccf603ec919f09bec2862c605451475bcfbbdc5e5c2"
+    },
+    {
+      "file": "R5_check_decisions.jsonl",
+      "record_type": "R5",
+      "record_count": 140215,
+      "sha256": "c898b761d268f27355988249611f3148aa9caad457f39a4cbf78fd1167d3381e"
+    },
+    {
+      "file": "R6_internal_movements.jsonl",
+      "record_type": "R6",
+      "record_count": 64,
+      "sha256": "1b078ba4dce6bb0b710ff220451378d71346a2e33e405c36374c57835e7fc873"
+    },
+    {
+      "file": "R7_reconciliation_statements.jsonl",
+      "record_type": "R7",
+      "record_count": 39,
+      "sha256": "ca9a03f3872ffd55f8aa3820a532063ef189f814bd803d618f0a36563f718264"
+    },
+    {
+      "file": "R8_exceptions.jsonl",
+      "record_type": "R8",
+      "record_count": 27,
+      "sha256": "d65d106a10391338acbef224e7fd21052d91de55d76c95bf7383a7bb03e462ea"
+    },
+    {
+      "file": "R9_incidents.jsonl",
+      "record_type": "R9",
+      "record_count": 1,
+      "sha256": "d8463c61ff7a09b256d6b19e738bc3798933c97bf7ef48b8756ecb415a5af4be"
+    },
+    {
+      "file": "R10_provider_register.jsonl",
+      "record_type": "R10",
+      "record_count": 6,
+      "sha256": "497982f1b6d17023406fdf5abf8238a754ae4408d66158df7ba996aae28ae42b"
+    },
+    {
+      "file": "R11_provider_attestations.jsonl",
+      "record_type": "R11",
+      "record_count": 1,
+      "sha256": "2801baf153af83b0afcfed10e41da86a927a64c885f43a5bdc2b3574875265e6"
+    }
+  ],
+  "generating_software": "example-ctres-exporter",
+  "generating_software_version": "0.1.0",
+  "report_reference_counts": [
+    {
+      "report_type": "cash_threshold_report",
+      "total": 3,
+      "filed_by_deadline": 3,
+      "filed_after_deadline": 0,
+      "not_filed": 0
+    },
+    {
+      "report_type": "suspicious_transaction_report",
+      "total": 1,
+      "filed_by_deadline": 1,
+      "filed_after_deadline": 0,
+      "not_filed": 0
+    }
+  ],
+  "synthetic": true
+}

@@ -1,0 +1,15 @@
+{
+  "check_id": "C-90211",
+  "subject_type": "player",
+  "subject_ref": "P-20931",
+  "subject_ref_scope": "licence-A",
+  "check_type": "sanctions",
+  "register_or_provider": "Consolidated sanctions list, via screening provider SCR-02",
+  "version": "2026-11-04",
+  "performed_by_party": "provider",
+  "performed_at": "2026-11-04T19:02:12+01:00",
+  "result_class": "no_match",
+  "decision": "allow",
+  "decided_by": "automated",
+  "evidence_ref": "EV-SCR-2026-11-04-90211"
+}

@@ -1,0 +1,52 @@
+{
+  "tx_id": "W-2026-000731",
+  "player_ref": "P-1190",
+  "player_ref_scope": "licence-A",
+  "direction": "withdrawal",
+  "rail": "virtual_asset",
+  "instrument_id": "I-VA-2210",
+  "provider_id": "VASP-01",
+  "rail_reference_type": "transaction_hash",
+  "rail_reference": "0xa82cd7e55b010d719daa8d76d708c6c1cbe091ae610c2a1d202b73d58c0e902a",
+  "amount": "180.000000",
+  "currency_or_asset": "USDT-ERC20",
+  "amount_reporting_ccy": "180.00",
+  "fx_rate": "1.00",
+  "fx_source": "VASP-01 reference rate at dispatch",
+  "chain": "ethereum",
+  "off_chain_movement": false,
+  "tx_hash": "0xa82cd7e55b010d719daa8d76d708c6c1cbe091ae610c2a1d202b73d58c0e902a",
+  "block_time": "2026-11-09T08:14:23Z",
+  "confirmations": 12,
+  "counterparty_address": "0x4b9d1c0e7a3f5b2d8e6c1a9f0b7d3e5c2a8f6d14",
+  "counterparty_type": "unhosted",
+  "requested_at": "2026-11-09T08:01:10Z",
+  "approved_by": "analyst:A-17",
+  "approved_at": "2026-11-09T08:09:40Z",
+  "initiated_at": "2026-11-09T08:12:02Z",
+  "settled_at": "2026-11-09T08:14:23Z",
+  "credited_at": "2026-11-09T08:01:10Z",
+  "paid_at": "2026-11-09T08:14:23Z",
+  "destination_rule": "same_instrument",
+  "source_instrument_ids": [
+    "I-VA-2210"
+  ],
+  "account_currency": "USD",
+  "account_fx_rate": "1.00",
+  "credited_amount": "-180.00",
+  "ledger_entry_ref": "L-120391",
+  "fees": {
+    "currency_or_asset": "USDT-ERC20",
+    "rail": "0.000000",
+    "provider": "0.000000",
+    "network": "0.000000"
+  },
+  "operator_cost_reporting_ccy": "0.84",
+  "check_ids": [
+    "C-77588",
+    "C-77589"
+  ],
+  "outcome": "accepted",
+  "attestation_ref": "ATT-2026-11-VASP1",
+  "location_id": "L-VASP-01-POOL"
+}

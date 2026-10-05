@@ -1,0 +1,16 @@
+{
+  "incident_id": "INC-2026-11-01",
+  "category": "balance_discrepancy",
+  "detected_at": "2026-11-28T02:10:00+01:00",
+  "notified_at": "2026-11-28T11:45:00+01:00",
+  "deadline_at": "2026-11-29T02:10:00+01:00",
+  "authority": "Example Gambling Authority (fictional)",
+  "channel": "regulator_portal",
+  "channel_name": "EGA incident portal (fictional)",
+  "related_record_ids": [
+    "REC-2026-11-L-BANK-01",
+    "E-2026-1107"
+  ],
+  "status": "closed",
+  "description": "Daily reconciliation of the player-funds bank account showed an unexplained credit; resolved as a returned payout."
+}

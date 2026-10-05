@@ -1,0 +1,12 @@
+CTRES JSON Schema
+Copyright 2026 Dmitry Skachko and the CTRES contributors
+
+This product contains the JSON Schema of the Common Transaction Reporting and
+Evidence Standard (CTRES), licensed under the Apache License, Version 2.0.
+See the LICENSE file.
+
+The text of the Standard is published separately under the Creative Commons
+Attribution 4.0 International licence (CC BY 4.0): https://ctres.org
+
+The records, manifests and profiles in the examples directory are synthetic or
+fictional. They describe no real operator, player or jurisdiction.
