@@ -25,7 +25,7 @@ Every schema has an `$id` under `https://ctres.org/schema/1.0/`. References betw
 
 The schema follows the versioning rule of §13: major versions change the record model; minor versions add fields, rails or profile parameters; patches correct text.
 
-* The package version is `MAJOR.MINOR.PATCH`. `MAJOR.MINOR` is the version of the Standard the schema implements; this release is **1.0.0**, for CTRES v1.0.
+* The package version is `MAJOR.MINOR.PATCH`. `MAJOR.MINOR` is the version of the Standard the schema implements; this release is **1.0.1**, for CTRES v1.0.
 * The `$id` path carries `MAJOR.MINOR` (`/schema/1.0/`). A patch release keeps the same `$id`s and does not change which records are valid, except to correct a schema that contradicts the text.
 * `manifest.json` names the version of the Standard in `standard_version` and the profile in `profile_id` and `profile_version`, so that a package is always validated against the schema version it was produced for.
 * Jurisdiction profiles, mapping files and the conformance suite are versioned separately from the schema (§13).

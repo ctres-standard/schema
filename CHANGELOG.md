@@ -2,6 +2,10 @@
 
 Versions follow §13 of the Standard: `MAJOR.MINOR` is the version of the Standard the schema implements, and `PATCH` corrects the schema without changing the record model. See [README.md](README.md#versioning).
 
+## 1.0.1 — 3 November 2026
+
+- Descriptions only: references to a pre-release draft removed. No change to fields, requirements or validation.
+
 ## 1.0.0 — 2026-10-05
 
 Draft for consultation. First release, implementing CTRES v1.0, universal edition (2 October 2026).
