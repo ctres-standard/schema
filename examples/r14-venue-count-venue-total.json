@@ -1,0 +1,17 @@
+{
+  "count_id": "VC-2027-01-14-V-NORTH-01-TOTAL",
+  "venue_id": "V-NORTH-01",
+  "gaming_day": "2027-01-14",
+  "unit_type": "venue_total",
+  "unit_id": "V-NORTH-01",
+  "currency": "EUR",
+  "meter_source": "electronic",
+  "hard_count": "6140.00",
+  "soft_count": "118930.00",
+  "count_variance": "-35.00",
+  "win_declared": "41260.00",
+  "win_formula": "profile",
+  "drop_deposit_ref": "M-2027-01-0113",
+  "prepared_by": "count_room",
+  "reviewed_by": "venue_controller"
+}

@@ -1,7 +1,7 @@
 {
-  "ctres_version": "1.0",
+  "ctres_version": "1.1",
   "profile_id": "XJ",
-  "profile_version": "1.0.0",
+  "profile_version": "1.1.0",
   "title": "XJ — Example Jurisdiction (fictional profile, for illustration only)",
   "fictional": true,
   "jurisdiction": {
@@ -23,7 +23,8 @@
     }
   ],
   "status": "indicative",
-  "effective_from": "2026-10-01",
+  "effective_from": "2027-01-01",
+  "supersedes_version": "1.0.0",
   "market_status": "licensed",
   "indexed_units": [
     {
@@ -224,6 +225,15 @@
             "duration": "PT24H",
             "clock_starts_at": "detection"
           }
+        },
+        {
+          "rule_id": "rep-levy-return",
+          "report_type": "levy_return",
+          "destination_authority": "Example Revenue Service (fictional)",
+          "channel": "regulator_portal",
+          "deadline": {
+            "day_of_following_month": 20
+          }
         }
       ]
     },
@@ -308,7 +318,9 @@
             "R8",
             "R9",
             "R10",
-            "R11"
+            "R11",
+            "R13",
+            "R14"
           ],
           "transaction_extract": "full"
         },
@@ -335,7 +347,8 @@
       "formats": [
         "jsonl"
       ],
-      "report_references_in_packages": "counts_only"
+      "report_references_in_packages": "counts_only",
+      "minimum_conformance_level": "level_3"
     },
     "cross_operator_limits": {
       "reading": "stated",
@@ -432,10 +445,115 @@
           "starts_at": "end_of_relationship"
         }
       ]
+    },
+    "revenue_and_levy": {
+      "reading": "stated",
+      "note": "Fictional. The block illustrates the five parameters and the notes of the §5 Revenue and levy table; no value describes a real jurisdiction.",
+      "levy_formula": [
+        {
+          "applies_to": [
+            "*"
+          ],
+          "base_type": "ggr",
+          "terms": [
+            {
+              "quantity": "stakes_cash",
+              "sign": "+"
+            },
+            {
+              "quantity": "stakes_bonus",
+              "sign": "+"
+            },
+            {
+              "quantity": "stakes_refunded",
+              "sign": "-"
+            },
+            {
+              "quantity": "winnings_cash",
+              "sign": "-"
+            },
+            {
+              "quantity": "winnings_bonus",
+              "sign": "-"
+            },
+            {
+              "quantity": "bonus_granted",
+              "sign": "-",
+              "cap": {
+                "share_of": "stakes_cash",
+                "share": "0.20"
+              }
+            }
+          ],
+          "rate": "0.20"
+        },
+        {
+          "applies_to": [
+            "*"
+          ],
+          "jurisdiction_category": "peer_to_peer",
+          "base_type": "commission",
+          "terms": [
+            {
+              "quantity": "rake_and_fees",
+              "sign": "+"
+            }
+          ],
+          "rate": "0.20"
+        },
+        {
+          "applies_to": [
+            "*"
+          ],
+          "jurisdiction_category": "venue_machines",
+          "base_type": "fixed_per_unit",
+          "fixed_amount": {
+            "amount": "150.00",
+            "currency": "EUR",
+            "per": "slot_machine"
+          },
+          "venue_win_formulas": {
+            "slot_machine": "slot_meter_formula",
+            "table": "table_drop_formula"
+          }
+        }
+      ],
+      "recognition": {
+        "stakes_basis": "placed",
+        "winnings_basis": "credited"
+      },
+      "period_and_filing": {
+        "period": "month",
+        "cut_off": "00:00 local",
+        "due": "20th of the following month",
+        "collector": "tax_authority",
+        "channel": "Example Revenue Service e-filing portal (fictional)",
+        "form": "Example levy return form GL-1 (fictional)",
+        "figure_of_record": "operator_declaration"
+      },
+      "negative_periods": {
+        "rule": "carry_forward",
+        "netting_scope": "product_class"
+      },
+      "aggregation": {
+        "axes": [
+          "product_line",
+          "channel"
+        ],
+        "taxonomy": {
+          "ref": "Example product taxonomy (fictional)",
+          "version": "2027.1"
+        }
+      },
+      "notes": {
+        "stake_scope": "Tournament entry and participation fees count as stakes; venue admission fees do not.",
+        "bonus_treatment": "Bonus-funded stakes enter the base at face value; credits granted are deductible up to 20% of cash stakes, as the formula states; expired credits are reported and not deducted.",
+        "source": "None. This profile is fictional and cites no real source."
+      }
     }
   },
   "sources": [
     "None. This profile is fictional and cites no real source."
   ],
-  "notes": "Example profile for the CTRES schema package. XJ is an ISO 3166-1 user-assigned code. Every authority, register, threshold and deadline in this file is invented for illustration and describes no real jurisdiction."
+  "notes": "Example profile for the CTRES schema package. XJ is an ISO 3166-1 user-assigned code. Every authority, register, threshold and deadline in this file is invented for illustration and describes no real jurisdiction. Version 1.1.0 of this profile adds the Revenue and levy block, a levy_return report trigger, R13 and R14 in the periodic package and a minimum conformance level of level_3 Custody; it supersedes 1.0.0 from 1 January 2027."
 }

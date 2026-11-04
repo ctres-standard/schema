@@ -1,0 +1,22 @@
+{
+  "count_id": "VC-2027-01-14-V-NORTH-01-T-07",
+  "venue_id": "V-NORTH-01",
+  "gaming_day": "2027-01-14",
+  "unit_type": "table",
+  "unit_id": "T-07",
+  "currency": "EUR",
+  "meter_source": "manual_read",
+  "opening_inventory": "25000.00",
+  "closing_inventory": "28900.00",
+  "fills": "10000.00",
+  "credits": "4000.00",
+  "drop_cash": "9420.00",
+  "drop_markers": "0.00",
+  "coupons_face_value": "250.00",
+  "tips_excluded": "310.00",
+  "win_declared": "7570.00",
+  "win_formula": "table_drop_formula",
+  "drop_deposit_ref": "M-2027-01-0113",
+  "prepared_by": "table_games_supervisor",
+  "reviewed_by": "venue_controller"
+}

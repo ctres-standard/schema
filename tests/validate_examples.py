@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Validate the CTRES v1.0 JSON Schema package.
+"""Validate the CTRES v1.1 JSON Schema package.
 
 Checks, in order:
 
 1. Every file under schema/ is a valid JSON Schema (draft 2020-12) document whose $id
-   lies under https://ctres.org/schema/1.0/ and matches its path.
+   lies under https://ctres.org/schema/1.1/ and matches its path, and that the package
+   holds the expected number of schemas.
 2. Every property definition carries a description that cites a section of the
    Standard, and an x-ctres-req annotation (M, C or O); C fields also carry
    x-ctres-condition.
@@ -34,7 +35,9 @@ from referencing.jsonschema import DRAFT202012
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = ROOT / "schema"
 EXAMPLE_DIR = ROOT / "examples"
-BASE_ID = "https://ctres.org/schema/1.0/"
+BASE_ID = "https://ctres.org/schema/1.1/"
+# common, rail modules, payment, manifest, profile, and one schema per record type R1 to R14.
+EXPECTED_SCHEMA_COUNT = 19
 
 # Composition keywords whose subschemas restate or condition fields defined elsewhere;
 # field annotations are required where a field is defined, not where it is re-constrained.
@@ -90,6 +93,10 @@ for path, schema in schemas.items():
         fail(f"{rel}: $id {schema.get('$id')!r} does not match {BASE_ID + rel!r}")
     else:
         ok(rel)
+if len(schemas) != EXPECTED_SCHEMA_COUNT:
+    fail(f"expected {EXPECTED_SCHEMA_COUNT} schemas, found {len(schemas)}")
+else:
+    ok(f"{len(schemas)} schemas")
 
 # ---------------------------------------------------------------------------------------------
 # 2. Field annotations
@@ -228,6 +235,15 @@ MM = "annex-c-r03-mobile-money-deposit.json"
 VA = "annex-c-r03-virtual-asset-pooled-deposit.json"
 WD = "annex-c-r04-instant-payment-withdrawal.json"
 COV = "annex-c-r07-coverage-statement.json"
+R13O = "r13-gaming-revenue-statement-online.json"
+R13C = "r13-gaming-revenue-statement-correction.json"
+R13V = "r13-gaming-revenue-statement-venue.json"
+R14S = "r14-venue-count-slot-machine.json"
+R14T = "r14-venue-count-table.json"
+R14V = "r14-venue-count-venue-total.json"
+M11 = "manifest-periodic-package-1.1.json"
+XJ = "profile-xj-example-jurisdiction.json"
+RL = ("parameters", "revenue_and_levy")
 R04 = SCHEMA_DIR / "records" / "r04_withdrawal.schema.json"
 
 # (description, example, mutation, expected_valid, schema override)
@@ -319,7 +335,8 @@ CASES: list[tuple[str, str, Callable[[Any], None], bool, Path | None]] = [
     ("manifest sha256 in upper case", "manifest-periodic-package.json", put("A" * 64, "files", 0, "sha256"), False, None),
     ("manifest for another version of the Standard", "manifest-periodic-package.json", put("2.0", "standard_version"), False, None),
     ("manifest with no files", "manifest-periodic-package.json", put([], "files"), False, None),
-    ("manifest with record type R13", "manifest-periodic-package.json", put("R13", "files", 0, "record_type"), False, None),
+    ("manifest 1.0 package listing an R13 file", "manifest-periodic-package.json", put("R13", "files", 0, "record_type"), False, None),
+    ("manifest with record type R15", "manifest-periodic-package.json", put("R15", "files", 0, "record_type"), False, None),
     ("manifest supersedes without reason", "manifest-correction.json", drop("supersedes", "reason"), False, None),
     ("manifest with R3 and R4 files but no reporting_currency", "manifest-periodic-package.json", drop("reporting_currency"), False, None),
     ("manifest file format csv on a .jsonl file", "manifest-periodic-package.json", put("csv", "files", 0, "format"), False, None),
@@ -349,6 +366,153 @@ CASES: list[tuple[str, str, Callable[[Any], None], bool, Path | None]] = [
     ("inheriting profile without inherits_from","profile-xj-n-inheriting-example.json", drop("inherits_from"), False, None),
     ("profile confirmed with confirmed_by and confirmed_at", "profile-xj-example-jurisdiction.json",
      both(put("confirmed", "status"), put("Example Gambling Authority (fictional)", "confirmed_by"), put("2026-12-01", "confirmed_at")), True, None),
+    # R13
+    ("R13 correction without corrects_statement_id", R13C, drop("corrects_statement_id"), False, None),
+    ("R13 correction without correction_reason", R13C, drop("correction_reason"), False, None),
+    ("R13 period statement carrying corrects_statement_id", R13O, put("GRS-2026-12-X", "corrects_statement_id"), False, None),
+    ("R13 statement_kind outside the enumeration", R13O, put("restatement", "statement_kind"), False, None),
+    ("R13 ggr_declared as a JSON number", R13O, put(265550.0, "ggr_declared"), False, None),
+    ("R13 stakes_bonus without bonus_measurement", R13O, drop("bonus_measurement"), False, None),
+    ("R13 open_liability_start without open_liability_end", R13O, drop("open_liability_end"), False, None),
+    ("R13 jackpot_contributions without jackpot_payouts", R13O, drop("jackpot_payouts"), False, None),
+    ("R13 levy_amount_declared without levy_base_declared", R13O, drop("levy_base_declared"), False, None),
+    ("R13 fx_rate without fx_source and fx_at", R13O, put("1.00", "fx_rate"), False, None),
+    ("R13 channel outside the enumeration", R13O, put("mobile", "channel"), False, None),
+    ("R13 authority_figure_ref without figure", R13O, drop("authority_figure_ref", "figure"), False, None),
+    ("R13 with an undefined field", R13O, put("1000.00", "ngr_declared"), False, None),
+    ("R13 fx_rate with fx_source and fx_at", R13O,
+     both(put("XJD", "currency"), put("0.85", "fx_rate"), put("Example Central Bank monthly rate (fictional)", "fx_source"),
+          put("2027-01-31T23:59:59+01:00", "fx_at")), True, None),
+    ("R13 negative ggr_declared (negative period)", R13O, put("-12040.00", "ggr_declared"), True, None),
+    ("R13 evidence_ref not_recorded (visible gap)", R13O, put("not_recorded", "evidence_ref"), True, None),
+    ("R13 without bonus fields or bonus_measurement", R13C,
+     both(drop("stakes_bonus"), drop("winnings_bonus"), drop("bonus_granted"), drop("bonus_expired"), drop("bonus_measurement")), True, None),
+    ("R13 stakes_bonus without bonus_granted and bonus_expired", R13O, both(drop("bonus_granted"), drop("bonus_expired")), False, None),
+    ("R13 winnings_bonus without bonus_granted and bonus_expired", R13C,
+     both(drop("stakes_bonus"), drop("bonus_granted"), drop("bonus_expired")), False, None),
+    ("R13 stakes_basis outside the enumeration", R13O, put("accrued", "stakes_basis"), False, None),
+    ("R13 venue_id as a JSON number", R13V, put(7, "venue_id"), False, None),
+    ("R13 player_location not an ISO code", R13O, put("Example", "player_location"), False, None),
+    ("R13 stakes_basis accrual_at_result", R13O, put("accrual_at_result", "stakes_basis"), True, None),
+    ("R13 player_location with a subdivision", R13O, put("XJ-N", "player_location"), True, None),
+    ("R13 venue line without venue_id (condition depends on the licence and the profile)", R13V, drop("venue_id"), True, None),
+    ("R13 without authority_figure_ref (condition depends on the profile)", R13O, drop("authority_figure_ref"), True, None),
+    # R14
+    ("R14 slot row without meters", R14S, both(drop("meters_start"), drop("meters_end")), False, None),
+    ("R14 slot row without meters_end", R14S, drop("meters_end"), False, None),
+    ("R14 slot meters without coin_in", R14S, drop("meters_start", "coin_in"), False, None),
+    ("R14 slot meters with an undefined meter", R14S, put("1.00", "meters_end", "handle"), False, None),
+    ("R14 slot meters with cashless transfers and progressive payouts", R14S,
+     both(put("1250.00", "meters_end", "wat_in"), put("980.00", "meters_end", "wat_out"),
+          put("500.00", "meters_end", "progressive_payouts_attendant_paid")), True, None),
+    ("R14 slot row carrying hard_count", R14S, put("100.00", "hard_count"), False, None),
+    ("R14 table row without drop_cash", R14T, drop("drop_cash"), False, None),
+    ("R14 table row without fills", R14T, drop("fills"), False, None),
+    ("R14 table row carrying meters", R14T, put({"coin_in": "1.00", "coin_out": "0.00"}, "meters_start"), False, None),
+    ("R14 venue_total without counts", R14V, both(drop("hard_count"), drop("soft_count"), drop("count_variance")), False, None),
+    ("R14 venue_total without count_variance", R14V, drop("count_variance"), False, None),
+    ("R14 without gaming_day or period", R14S, drop("gaming_day"), False, None),
+    ("R14 with both gaming_day and period", R14S,
+     both(put("2027-01-14T00:00:00+01:00", "period_start"), put("2027-01-14T23:59:59+01:00", "period_end")), False, None),
+    ("R14 win_formula outside the enumeration", R14T, put("house_formula", "win_formula"), False, None),
+    ("R14 win_declared as a JSON number", R14T, put(7570.0, "win_declared"), False, None),
+    ("R14 meter_source outside the enumeration", R14S, put("unknown", "meter_source"), False, None),
+    ("R14 counter row without closing_inventory", R14T, both(put("counter", "unit_type"), drop("closing_inventory")), False, None),
+    ("R14 period count in place of gaming_day", R14S,
+     both(drop("gaming_day"), put("2027-01-01T00:00:00+01:00", "period_start"), put("2027-01-31T23:59:59+01:00", "period_end")), True, None),
+    ("R14 meter_source not_recorded (visible gap)", R14S, put("not_recorded", "meter_source"), True, None),
+    ("R14 table win negative", R14T, put("-1430.00", "win_declared"), True, None),
+    ("R14 counter row with inventories only", R14T,
+     both(put("counter", "unit_type"), put("C-01", "unit_id"), drop("fills"), drop("credits"), drop("drop_cash"), drop("drop_markers"),
+          drop("coupons_face_value"), drop("tips_excluded"), put("profile", "win_formula")), True, None),
+    ("R14 slot row with meter_source not_recorded and no meters", R14S,
+     both(put("not_recorded", "meter_source"), drop("meters_start"), drop("meters_end"), put("slot_drop_formula", "win_formula"),
+          put("740.00", "drop_cash"), put("0.00", "fills")), True, None),
+    ("R14 slot row by the drop formula without drop_cash and fills", R14S, put("slot_drop_formula", "win_formula"), False, None),
+    ("R14 slot row by the drop formula with drop and fills", R14S,
+     both(put("slot_drop_formula", "win_formula"), put("740.00", "drop_cash"), put("0.00", "fills")), True, None),
+    ("R14 slot row by the table formula", R14S, put("table_drop_formula", "win_formula"), False, None),
+    ("R14 table row by a slot formula", R14T, put("slot_meter_formula", "win_formula"), False, None),
+    ("R14 slot row by the profile's formula", R14S, put("profile", "win_formula"), True, None),
+    ("R14 venue_total row by the table formula (formula free on venue_total and counter rows)", R14V, put("table_drop_formula", "win_formula"), True, None),
+    # R1 venue_id and R12 levy_return
+    ("R1 cash float with venue_id", "r01-funds-location-bank-account.json",
+     both(put("cash_float", "location_type"), put("V-NORTH-01", "venue_id")), True, None),
+    ("R1 venue_id as a JSON number", "r01-funds-location-bank-account.json", put(7, "venue_id"), False, None),
+    ("R12 report_type levy_return", "r12-report-reference.json", put("levy_return", "report_type"), True, None),
+    # Manifest 1.1
+    ("manifest with R13 but standard_version 1.0", M11, put("1.0", "standard_version"), False, None),
+    ("manifest with R14 but standard_version 1.0", M11,
+     both(put("1.0", "standard_version"),
+          lambda d: d.__setitem__("files", [x for x in d["files"] if x["record_type"] != "R13"])), False, None),
+    ("manifest 1.1 package without R13 or R14 files", M11,
+     lambda d: d.__setitem__("files", [x for x in d["files"] if x["record_type"] not in ("R13", "R14")]), True, None),
+    ("manifest without R13 or R14 declaring standard_version 1.1", "manifest-periodic-package.json", put("1.1", "standard_version"), True, None),
+    ("manifest report_reference_counts with levy_return", "manifest-periodic-package.json",
+     lambda d: d["report_reference_counts"].append(
+         {"report_type": "levy_return", "total": 1, "filed_by_deadline": 1, "filed_after_deadline": 0, "not_filed": 0}), True, None),
+    # Manifest: conformance levels (§10)
+    ("manifest declaring level_4", M11, put("level_4", "conformance_level_declared"), True, None),
+    ("manifest declaring level_1", M11, put("level_1", "conformance_level_declared"), True, None),
+    ("manifest declaring level_5", M11, put("level_5", "conformance_level_declared"), False, None),
+    ("manifest declaring a level by name rather than code", M11, put("Level 1", "conformance_level_declared"), False, None),
+    ("manifest without a declared level", M11, drop("conformance_level_declared"), True, None),
+    # Profile: Revenue and levy (five parameters and notes, §5)
+    ("profile revenue_and_levy without levy_formula", XJ, drop(*RL, "levy_formula"), False, None),
+    ("profile revenue_and_levy without recognition", XJ, drop(*RL, "recognition"), False, None),
+    ("profile revenue_and_levy without period_and_filing", XJ, drop(*RL, "period_and_filing"), False, None),
+    ("profile revenue_and_levy without reading", XJ, drop(*RL, "reading"), False, None),
+    ("profile levy formula term with an unknown quantity", XJ, put("net_profit", *RL, "levy_formula", 0, "terms", 0, "quantity"), False, None),
+    ("profile levy formula term with a sign other than + or -", XJ, put("minus", *RL, "levy_formula", 0, "terms", 2, "sign"), False, None),
+    ("profile levy formula term without a sign", XJ, drop(*RL, "levy_formula", 0, "terms", 2, "sign"), False, None),
+    ("profile levy base_type outside the enumeration", XJ, put("ngr", *RL, "levy_formula", 0, "base_type"), False, None),
+    ("profile levy formula without applies_to", XJ, drop(*RL, "levy_formula", 0, "applies_to"), False, None),
+    ("profile levy formula with rate and bands together", XJ, put([{"up_to": None, "rate": "0.10"}], *RL, "levy_formula", 0, "bands"), False, None),
+    ("profile levy formula with neither rate, bands nor fixed_amount", XJ, drop(*RL, "levy_formula", 0, "rate"), False, None),
+    ("profile ggr formula without terms", XJ, drop(*RL, "levy_formula", 0, "terms"), False, None),
+    ("profile fixed_per_unit formula without fixed_amount", XJ,
+     both(drop(*RL, "levy_formula", 2, "fixed_amount"), put("0.10", *RL, "levy_formula", 2, "rate")), False, None),
+    ("profile fixed_amount per outside the enumeration", XJ, put("player", *RL, "levy_formula", 2, "fixed_amount", "per"), False, None),
+    ("profile band without up_to", XJ,
+     both(drop(*RL, "levy_formula", 0, "rate"), put([{"rate": "0.20"}], *RL, "levy_formula", 0, "bands")), False, None),
+    ("profile term cap with share but no share_of", XJ, put({"share": "0.20"}, *RL, "levy_formula", 0, "terms", 5, "cap"), False, None),
+    ("profile term cap with both a share and an amount", XJ,
+     put({"share_of": "stakes_cash", "share": "0.20", "amount": "1000.00", "currency": "EUR"}, *RL, "levy_formula", 0, "terms", 5, "cap"), False, None),
+    ("profile term cap share_of outside the R13 quantities", XJ, put("ggr", *RL, "levy_formula", 0, "terms", 5, "cap", "share_of"), False, None),
+    ("profile venue win formula that does not fit the unit", XJ,
+     put("slot_meter_formula", *RL, "levy_formula", 2, "venue_win_formulas", "table"), False, None),
+    ("profile recognition stakes_basis outside the enumeration", XJ, put("accrued", *RL, "recognition", "stakes_basis"), False, None),
+    ("profile recognition without winnings_basis", XJ, drop(*RL, "recognition", "winnings_basis"), False, None),
+    ("profile period outside the enumeration", XJ, put("monthly", *RL, "period_and_filing", "period"), False, None),
+    ("profile collector outside the enumeration", XJ, put("ministry", *RL, "period_and_filing", "collector"), False, None),
+    ("profile figure_of_record outside the enumeration", XJ, put("auditor", *RL, "period_and_filing", "figure_of_record"), False, None),
+    ("profile negative period rule outside the enumeration", XJ, put("offset", *RL, "negative_periods", "rule"), False, None),
+    ("profile netting scope outside the enumeration", XJ, put("premises", *RL, "negative_periods", "netting_scope"), False, None),
+    ("profile aggregation axis outside the enumeration", XJ, put(["product_line", "premises"], *RL, "aggregation", "axes"), False, None),
+    ("profile aggregation taxonomy without ref", XJ, drop(*RL, "aggregation", "taxonomy", "ref"), False, None),
+    ("profile notes with an undefined key", XJ, put("x", *RL, "notes", "rounding"), False, None),
+    ("profile revenue_and_levy with an undefined parameter", XJ, put({"basis": "stated"}, *RL, "rounding"), False, None),
+    ("profile revenue_and_levy with a former switch", XJ, put({"basis": "placed"}, *RL, "stake_recognition"), False, None),
+    ("profile with revenue_and_levy declaring ctres_version 1.0", XJ, put("1.0", "ctres_version"), False, None),
+    ("profile minimum_conformance_level level_5", XJ, put("level_5", "parameters", "submission", "minimum_conformance_level"), False, None),
+    ("profile revenue_and_levy as published", XJ, lambda d: None, True, None),
+    ("profile term cap as an amount", XJ, put({"amount": "100000.00", "currency": "EUR"}, *RL, "levy_formula", 0, "terms", 5, "cap"), True, None),
+    ("profile levy by bands with an open top band", XJ,
+     both(drop(*RL, "levy_formula", 0, "rate"),
+          put([{"up_to": "1000000.00", "rate": "0.15"}, {"up_to": None, "rate": "0.20"}], *RL, "levy_formula", 0, "bands")), True, None),
+    ("profile fee_band formula", XJ,
+     put({"applies_to": ["*"], "base_type": "fee_band",
+          "terms": [{"quantity": "stakes_cash", "sign": "+"}, {"quantity": "winnings_cash", "sign": "-"}],
+          "bands": [{"up_to": "500000.00", "rate": "0.05"}, {"up_to": None, "rate": "0.01"}]}, *RL, "levy_formula", 1), True, None),
+    ("profile revenue_and_levy minimal block", XJ,
+     put({"reading": "stated",
+          "levy_formula": [{"applies_to": ["*"], "base_type": "turnover", "terms": [{"quantity": "stakes_cash", "sign": "+"}], "rate": "0.053"}],
+          "recognition": {"stakes_basis": "placed", "winnings_basis": "paid"},
+          "period_and_filing": {"period": "month"}}, *RL), True, None),
+    ("profile minimum_conformance_level level_1", XJ, put("level_1", "parameters", "submission", "minimum_conformance_level"), True, None),
+    ("profile without minimum_conformance_level", XJ, drop("parameters", "submission", "minimum_conformance_level"), True, None),
+    ("profile without revenue_and_levy declaring ctres_version 1.0", XJ,
+     both(drop(*RL), put("1.0", "ctres_version")), True, None),
 ]
 
 for description, example, mutate, expected_valid, override in CASES:
