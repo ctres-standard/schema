@@ -1,0 +1,22 @@
+{
+  "bet_id": "BET-2027-01-14-000190",
+  "player_ref": "P-41177",
+  "player_ref_scope": "exampleplay",
+  "product_line": "VENUE-SPORTSBOOK",
+  "channel": "venue",
+  "currency": "EUR",
+  "stake": "40.00",
+  "placed_at": "2027-01-14T15:20:44+01:00",
+  "status": "void",
+  "settled_at": "2027-01-14T17:05:00+01:00",
+  "void_reason": "Event cancelled; stake returned",
+  "jurisdiction_category": "betting",
+  "venue_id": "V-NORTH-01",
+  "game_ref": "EVT-2027-01-14-0802:match_winner",
+  "odds": "1.95",
+  "ledger_entry_refs": [
+    "LE-2027-01-14-549870",
+    "LE-2027-01-14-553120"
+  ],
+  "evidence_ref": "BET-LOG-2027-01-14"
+}

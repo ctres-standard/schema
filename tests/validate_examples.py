@@ -36,8 +36,9 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = ROOT / "schema"
 EXAMPLE_DIR = ROOT / "examples"
 BASE_ID = "https://ctres.org/schema/1.1/"
-# common, rail modules, payment, manifest, profile, and one schema per record type R1 to R14.
-EXPECTED_SCHEMA_COUNT = 19
+# common, rail modules, payment, manifest, profile, one schema per record type R1 to R15, and the stream
+# event envelope and checkpoint. The reference transport, stream/openapi.yaml, is not a schema.
+EXPECTED_SCHEMA_COUNT = 22
 
 # Composition keywords whose subschemas restate or condition fields defined elsewhere;
 # field annotations are required where a field is defined, not where it is re-constrained.
@@ -160,6 +161,10 @@ def schema_path_for(example_name: str) -> Path:
         return SCHEMA_DIR / "manifest.schema.json"
     if example_name.startswith("profile"):
         return SCHEMA_DIR / "profile.schema.json"
+    if example_name.startswith("stream-event"):
+        return SCHEMA_DIR / "stream" / "event.schema.json"
+    if example_name.startswith("stream-checkpoint"):
+        return SCHEMA_DIR / "stream" / "checkpoint.schema.json"
     m = re.search(r"(?:^|-)r(\d{2})-", example_name)
     if not m:
         raise LookupError(f"cannot tell which schema applies to {example_name}")
@@ -194,10 +199,10 @@ for path in example_files:
     else:
         ok(f"{path.name}  ->  {sp.relative_to(SCHEMA_DIR).as_posix()}")
 
-# Every record type, the manifest and the profile have at least one example.
+# Every record type, the manifest, the profile, the stream event and the checkpoint have at least one example.
 covered = {schema_path_for(n).name for n in examples}
 for sp in schema_files:
-    if sp.parent.name == "records" or sp.name in ("manifest.schema.json", "profile.schema.json"):
+    if sp.parent.name in ("records", "stream") or sp.name in ("manifest.schema.json", "profile.schema.json"):
         if sp.name not in covered:
             fail(f"no example for {sp.relative_to(SCHEMA_DIR).as_posix()}")
 
@@ -244,7 +249,11 @@ R14V = "r14-venue-count-venue-total.json"
 M11 = "manifest-periodic-package-1.1.json"
 XJ = "profile-xj-example-jurisdiction.json"
 RL = ("parameters", "revenue_and_levy")
+SUB = ("parameters", "submission")
+R15O, R15S, R15V = "r15-bet-event-open.json", "r15-bet-event-settled.json", "r15-bet-event-void.json"
+EV3, EV15, EVCP, CP = "stream-event-r3-create.json", "stream-event-r15-update.json", "stream-event-checkpoint.json", "stream-checkpoint.json"
 R04 = SCHEMA_DIR / "records" / "r04_withdrawal.schema.json"
+R15 = SCHEMA_DIR / "records" / "r15_bet_event.schema.json"
 
 # (description, example, mutation, expected_valid, schema override)
 CASES: list[tuple[str, str, Callable[[Any], None], bool, Path | None]] = [
@@ -336,7 +345,8 @@ CASES: list[tuple[str, str, Callable[[Any], None], bool, Path | None]] = [
     ("manifest for another version of the Standard", "manifest-periodic-package.json", put("2.0", "standard_version"), False, None),
     ("manifest with no files", "manifest-periodic-package.json", put([], "files"), False, None),
     ("manifest 1.0 package listing an R13 file", "manifest-periodic-package.json", put("R13", "files", 0, "record_type"), False, None),
-    ("manifest with record type R15", "manifest-periodic-package.json", put("R15", "files", 0, "record_type"), False, None),
+    ("manifest 1.0 package listing an R15 file", "manifest-periodic-package.json", put("R15", "files", 0, "record_type"), False, None),
+    ("manifest with record type R16", "manifest-periodic-package.json", put("R16", "files", 0, "record_type"), False, None),
     ("manifest supersedes without reason", "manifest-correction.json", drop("supersedes", "reason"), False, None),
     ("manifest with R3 and R4 files but no reporting_currency", "manifest-periodic-package.json", drop("reporting_currency"), False, None),
     ("manifest file format csv on a .jsonl file", "manifest-periodic-package.json", put("csv", "files", 0, "format"), False, None),
@@ -513,6 +523,127 @@ CASES: list[tuple[str, str, Callable[[Any], None], bool, Path | None]] = [
     ("profile without minimum_conformance_level", XJ, drop("parameters", "submission", "minimum_conformance_level"), True, None),
     ("profile without revenue_and_levy declaring ctres_version 1.0", XJ,
      both(drop(*RL), put("1.0", "ctres_version")), True, None),
+    # R15 Bet Event (Wagering module, §4.15)
+    ("R15 open bet as published", R15O, lambda d: None, True, None),
+    ("R15 without bet_id", R15O, drop("bet_id"), False, None),
+    ("R15 without player_ref_scope", R15O, drop("player_ref_scope"), False, None),
+    ("R15 stake as a JSON number", R15O, put(25.0, "stake"), False, None),
+    ("R15 negative stake", R15O, put("-25.00", "stake"), False, None),
+    ("R15 channel outside the enumeration", R15O, put("mobile", "channel"), False, None),
+    ("R15 status outside the enumeration", R15O, put("pending", "status"), False, None),
+    ("R15 currency that is not an ISO 4217 code", R15O, put("USDT-ERC20", "currency"), False, None),
+    ("R15 open bet with winnings 10.00", R15O, put("10.00", "winnings"), False, None),
+    ("R15 open bet with winnings 0.00", R15O, put("0.00", "winnings"), True, None),
+    ("R15 open bet carrying settled_at", R15O, put("2027-01-14T21:03:55+01:00", "settled_at"), False, None),
+    ("R15 open bet carrying void_reason", R15O, put("Event cancelled", "void_reason"), False, None),
+    ("R15 settled bet without settled_at", R15S, drop("settled_at"), False, None),
+    ("R15 settled bet carrying void_reason", R15S, put("Event cancelled", "void_reason"), False, None),
+    ("R15 void bet without void_reason", R15V, drop("void_reason"), False, None),
+    ("R15 void bet without settled_at", R15V, drop("settled_at"), False, None),
+    ("R15 void bet carrying winnings 0.00", R15V, put("0.00", "winnings"), True, None),
+    ("R15 cashed-out bet with settled_at and winnings", R15O,
+     both(put("cashed_out", "status"), put("2027-01-14T20:10:00+01:00", "settled_at"), put("31.20", "winnings")), True, None),
+    ("R15 cashed-out bet without settled_at", R15O, both(put("cashed_out", "status"), put("31.20", "winnings")), False, None),
+    ("R15 odds that are not a decimal string", R15O, put("12/5", "odds"), False, None),
+    ("R15 negative odds (American format)", R15O, put("-110", "odds"), True, None),
+    ("R15 jurisdiction_category not in snake_case", R15O, put("Betting", "jurisdiction_category"), False, None),
+    ("R15 ledger_entry_refs with a repeated entry", R15S, put(["LE-1", "LE-1"], "ledger_entry_refs"), False, None),
+    ("R15 with an undefined field", R15O, put("P-20931", "player_name"), False, None),
+    ("R15 venue bet without venue_id (condition depends on the licence and the profile)", R15V, drop("venue_id"), True, None),
+    ("R15 with authority_reference and rake_and_fees", R15S,
+     both(put("XJ-HUB-2027-01-14-00044120", "authority_reference"), put("0.05", "rake_and_fees")), True, None),
+    ("R15 settled bet with the core fields only and settled_at", R15S,
+     both(drop("stake_bonus"), drop("winnings"), drop("winnings_bonus"), drop("jurisdiction_category"), drop("game_ref"),
+          drop("jackpot_contribution"), drop("ledger_entry_refs"), drop("evidence_ref")), True, None),
+    ("R15 validated as R4", R15O, lambda d: None, False, R04),
+    ("R3 deposit validated as R15", CARD, lambda d: None, False, R15),
+    # Stream event envelope (§8.4)
+    ("stream event with a well-formed envelope (R3 create)", EV3, lambda d: None, True, None),
+    ("stream event with a well-formed envelope (R15 update)", EV15, lambda d: None, True, None),
+    ("stream event with a well-formed envelope (checkpoint)", EVCP, lambda d: None, True, None),
+    ("stream event with sequence 1", EV3, put(1, "sequence"), True, None),
+    ("stream event with sequence 0", EV3, put(0, "sequence"), False, None),
+    ("stream event with sequence as a string", EV3, put("10482", "sequence"), False, None),
+    ("stream event without stream_id", EV3, drop("stream_id"), False, None),
+    ("stream event without emitted_at", EV3, drop("emitted_at"), False, None),
+    ("stream event emitted_at without offset", EV3, put("2027-01-14T18:40:07", "emitted_at"), False, None),
+    ("stream event without licence_number", EV3, drop("licence_number"), False, None),
+    ("stream event standard_version 1.0", EV3, put("1.0", "standard_version"), False, None),
+    ("stream event without profile_id", EV3, drop("profile_id"), True, None),
+    ("stream event profile_id in lower case", EV3, put("xj-2026-1", "profile_id"), False, None),
+    ("stream event with an unknown record_type", EV3, put("R16", "record_type"), False, None),
+    ("stream event record_type in lower case", EV3, put("r3", "record_type"), False, None),
+    ("stream event op not in the enumeration", EV3, put("delete", "op"), False, None),
+    ("stream event with an undefined envelope field", EV3, put("abc", "signature"), False, None),
+    ("stream event record_type R3 with an invalid R3 record", EV3, drop("record", "tx_id"), False, None),
+    ("stream event record_type R3 with a record that is not an object", EV3, put("D-2027-01-14-000731", "record"), False, None),
+    ("stream event record_type R3 whose record carries an undefined field", EV3, put("blue", "record", "colour"), False, None),
+    ("stream event R3 record validated as R4 (record_type R4)", EV3, put("R4", "record_type"), False, None),
+    ("stream event R15 update with an open bet carrying winnings", EV15, put("open", "record", "status"), False, None),
+    ("stream event op void with only the identifier", EV3, both(put("void", "op"), put({"tx_id": "D-2027-01-14-000731"}, "record"),
+                                                               put("Booked twice; the other booking stands", "reason")), True, None),
+    ("stream event op void with the whole record", EV3, both(put("void", "op"), put("Booked twice", "reason")), True, None),
+    ("stream event op void with an empty record", EV3, both(put("void", "op"), put({}, "record")), False, None),
+    ("stream event op void with reason longer than free text permits", EV3, both(put("void", "op"), put("x" * 4001, "reason")), False, None),
+    ("stream event checkpoint with op update", EVCP, put("update", "op"), False, None),
+    ("stream event checkpoint with op void", EVCP, both(put("void", "op"), put("withdrawn", "reason")), False, None),
+    ("stream event checkpoint without chain_hash", EVCP, drop("record", "chain_hash"), False, None),
+    ("stream event checkpoint carrying a record field", EVCP, put("x", "record", "tx_id"), False, None),
+    # Stream checkpoint (§8.4)
+    ("stream checkpoint as published", CP, lambda d: None, True, None),
+    ("stream checkpoint with non-hex chain_hash", CP, put("g" * 64, "chain_hash"), False, None),
+    ("stream checkpoint with chain_hash in upper case", CP, put("A" * 64, "chain_hash"), False, None),
+    ("stream checkpoint with chain_hash of 63 characters", CP, put("a" * 63, "chain_hash"), False, None),
+    ("stream checkpoint without event_count", CP, drop("event_count"), False, None),
+    ("stream checkpoint with first_sequence 0", CP, put(0, "first_sequence"), False, None),
+    ("stream checkpoint with negative event_count", CP, put(-1, "event_count"), False, None),
+    ("stream checkpoint with event_count as a string", CP, put("719", "event_count"), False, None),
+    ("stream checkpoint with previous_checkpoint_hash not hex", CP, put("none", "previous_checkpoint_hash"), False, None),
+    ("stream checkpoint with a signature", CP, put("MEUCIQ...", "signature"), True, None),
+    ("stream checkpoint with an empty signature", CP, put("", "signature"), False, None),
+    ("stream checkpoint without previous_checkpoint_hash", CP, drop("previous_checkpoint_hash"), True, None),
+    ("stream checkpoint for a period without events", CP,
+     both(put(10001, "first_sequence"), put(10000, "last_sequence"), put(0, "event_count")), True, None),
+    ("stream checkpoint with an undefined field", CP, put("R3", "record_type"), False, None),
+    # Manifest: R15 files and stream_checkpoints
+    ("manifest with R15 but standard_version 1.0", M11,
+     both(put("1.0", "standard_version"),
+          lambda d: d.__setitem__("files", [dict(x, record_type="R15", file="R15_bet_events.jsonl") for x in d["files"][:1]])), False, None),
+    ("manifest 1.1 package listing an R15 file", M11,
+     lambda d: d["files"].append({"file": "R15_bet_events.jsonl", "record_type": "R15", "record_count": 2410,
+                                  "sha256": "a" * 64}), True, None),
+    ("manifest stream_checkpoints as published", M11, lambda d: None, True, None),
+    ("manifest without stream_checkpoints", M11, drop("stream_checkpoints"), True, None),
+    ("manifest with empty stream_checkpoints", M11, put([], "stream_checkpoints"), False, None),
+    ("manifest stream_checkpoints entry without chain_hash", M11, drop("stream_checkpoints", 0, "chain_hash"), False, None),
+    ("manifest stream_checkpoints entry with non-hex chain_hash", M11, put("z" * 64, "stream_checkpoints", 0, "chain_hash"), False, None),
+    ("manifest stream_checkpoints entry that is an event envelope", M11,
+     lambda d: d.__setitem__("stream_checkpoints", [examples[EVCP]]), False, None),
+    ("manifest stream_checkpoints with submission_mode continuous", M11, put("continuous", "submission_mode"), True, None),
+    # R13 interim statements (§4.13; §8.4)
+    ("R13 interim statement", R13O, put("interim", "statement_kind"), True, None),
+    ("R13 interim statement carrying corrects_statement_id", R13O,
+     both(put("interim", "statement_kind"), put("GRS-2026-12-X", "corrects_statement_id")), False, None),
+    # Profile: submission stream parameters (§8.4; §5)
+    ("profile submission stream parameters as published", XJ, lambda d: None, True, None),
+    ("profile submission.mode stream", XJ, put("stream", *SUB, "mode"), False, None),
+    ("profile submission.mode periodic", XJ, put("periodic", *SUB, "mode"), True, None),
+    ("profile latency 60s (not ISO 8601)", XJ, put("60s", *SUB, "latency", "R3"), False, None),
+    ("profile latency as a JSON number", XJ, put(60, *SUB, "latency", "R3"), False, None),
+    ("profile latency for an unknown record type", XJ, put("PT60S", *SUB, "latency", "R16"), False, None),
+    ("profile latency for a checkpoint", XJ, put("PT60S", *SUB, "latency", "checkpoint"), False, None),
+    ("profile empty latency", XJ, put({}, *SUB, "latency"), False, None),
+    ("profile latency PT0S and P1D", XJ, put({"R9": "PT0S", "R7": "P1D"}, *SUB, "latency"), True, None),
+    ("profile checkpoint outside the enumeration", XJ, put("daily", *SUB, "checkpoint"), False, None),
+    ("profile checkpoint hour", XJ, put("hour", *SUB, "checkpoint"), True, None),
+    ("profile bet_level as a string", XJ, put("yes", *SUB, "bet_level"), False, None),
+    ("profile bet_level false", XJ, put(False, *SUB, "bet_level"), True, None),
+    ("profile transport outside the enumeration", XJ, put("sftp", *SUB, "transport"), False, None),
+    ("profile transport pull", XJ, put("pull", *SUB, "transport"), True, None),
+    ("profile continuous mode listing R15", XJ, put(["R15"], *SUB, "modes", 1, "record_types"), True, None),
+    ("profile mode listing an unknown record type", XJ, put(["R16"], *SUB, "modes", 1, "record_types"), False, None),
+    ("profile without the stream parameters", XJ,
+     both(drop(*SUB, "mode"), drop(*SUB, "latency"), drop(*SUB, "checkpoint"), drop(*SUB, "bet_level"), drop(*SUB, "transport")), True, None),
 ]
 
 for description, example, mutate, expected_valid, override in CASES:

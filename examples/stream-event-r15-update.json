@@ -1,0 +1,31 @@
+{
+  "stream_id": "XJ-EGA-0001:all",
+  "sequence": 10611,
+  "emitted_at": "2027-01-14T21:03:57+01:00",
+  "licence_number": "XJ-EGA-0001",
+  "standard_version": "1.1",
+  "profile_id": "XJ",
+  "record_type": "R15",
+  "op": "update",
+  "record": {
+    "bet_id": "BET-2027-01-14-000184",
+    "player_ref": "P-20931",
+    "player_ref_scope": "exampleplay",
+    "product_line": "SPORTS-PREMATCH-LIVE",
+    "channel": "online",
+    "currency": "EUR",
+    "stake": "25.00",
+    "placed_at": "2027-01-14T18:41:07+01:00",
+    "status": "settled",
+    "winnings": "60.00",
+    "settled_at": "2027-01-14T21:03:55+01:00",
+    "jurisdiction_category": "betting",
+    "game_ref": "EVT-2027-01-14-0931:match_winner",
+    "odds": "2.40",
+    "ledger_entry_refs": [
+      "LE-2027-01-14-551200",
+      "LE-2027-01-14-553944"
+    ],
+    "evidence_ref": "BET-LOG-2027-01-14"
+  }
+}

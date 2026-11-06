@@ -1,0 +1,12 @@
+{
+  "stream_id": "XJ-EGA-0001:all",
+  "licence_number": "XJ-EGA-0001",
+  "period_start": "2027-01-14T00:00:00+01:00",
+  "period_end": "2027-01-14T23:59:59+01:00",
+  "first_sequence": 10001,
+  "last_sequence": 10719,
+  "event_count": 719,
+  "chain_hash": "a2c74cbe6dd528c3406ff2fb3d9881a5cd3034487ae42d36c08ee49166fce00e",
+  "generated_at": "2027-01-15T00:05:00+01:00",
+  "previous_checkpoint_hash": "a699b5e0c3de6a18ab176a9a411d44038def25fb08c6aefd5d9886d24e94e9ef"
+}

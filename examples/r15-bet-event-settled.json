@@ -1,0 +1,23 @@
+{
+  "bet_id": "RND-2027-01-14-00912377",
+  "player_ref": "P-20931",
+  "player_ref_scope": "exampleplay",
+  "product_line": "CASINO-SLOTS",
+  "channel": "online",
+  "currency": "EUR",
+  "stake": "1.00",
+  "placed_at": "2027-01-14T19:12:03+01:00",
+  "status": "settled",
+  "stake_bonus": "1.00",
+  "winnings": "3.50",
+  "winnings_bonus": "0.00",
+  "settled_at": "2027-01-14T19:12:05+01:00",
+  "jurisdiction_category": "casino_games",
+  "game_ref": "GAME-SLOT-0113",
+  "jackpot_contribution": "0.02",
+  "ledger_entry_refs": [
+    "LE-2027-01-14-552010",
+    "LE-2027-01-14-552011"
+  ],
+  "evidence_ref": "ROUND-LOG-2027-01-14"
+}

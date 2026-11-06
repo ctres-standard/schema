@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: CTRES v1.1 stream transport (reference)
+  version: 1.1.0
+  summary: Reference HTTP transport for CTRES stream events and checkpoints (§8.4). Informational.
+  description: |
+    One way to carry a CTRES stream (§8.4) over HTTP. The Standard defines the event envelope
+    (event.schema.json) and the checkpoint (checkpoint.schema.json); it does not prescribe a transport.
+    An authority may adopt these paths, or state its own protocol in the profile
+    (parameters.submission.transport: push, pull or authority_protocol). Nothing here is required
+    for conformance.
+
+    Security is mutual TLS or a bearer token, at the authority's choice; it is stated here and not
+    modelled further. Delivery is at least once: a receiver ignores a repeated (stream_id, sequence)
+    with identical bytes and rejects one with different bytes.
+  license:
+    name: Apache License, Version 2.0
+    identifier: Apache-2.0
+servers:
+  - url: https://authority.example
+    description: Placeholder; the authority states its own host.
+security:
+  - mutualTLS: []
+  - bearerAuth: []
+paths:
+  /ctres/v1/streams/{stream_id}/events:
+    post:
+      summary: Push one or more events, in sequence order
+      operationId: pushEvents
+      parameters:
+        - $ref: '#/components/parameters/streamId'
+      requestBody:
+        required: true
+        content:
+          application/x-ndjson:
+            schema:
+              $ref: './event.schema.json'
+            description: One event per line, each valid against event.schema.json, in ascending sequence.
+      responses:
+        '200':
+          description: Every line was accepted, or was a duplicate with identical bytes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accepted'
+        '409':
+          description: A sequence repeats an earlier one with different bytes. Nothing after it was accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        '422':
+          description: A line does not validate against event.schema.json. Nothing was accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaFailure'
+    get:
+      summary: Replay or pull events from a sequence
+      operationId: readEvents
+      parameters:
+        - $ref: '#/components/parameters/streamId'
+        - name: from_sequence
+          in: query
+          required: true
+          schema: { type: integer, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 10000, default: 1000 }
+      responses:
+        '200':
+          description: Events from from_sequence, in ascending sequence, one per line.
+          content:
+            application/x-ndjson:
+              schema:
+                $ref: './event.schema.json'
+  /ctres/v1/streams/{stream_id}/checkpoints:
+    get:
+      summary: Checkpoints of a stream, for one gaming day or all
+      operationId: readCheckpoints
+      parameters:
+        - $ref: '#/components/parameters/streamId'
+        - name: day
+          in: query
+          description: Gaming day, YYYY-MM-DD; every checkpoint of the stream where omitted.
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: The checkpoints, as emitted in the stream.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './checkpoint.schema.json'
+components:
+  parameters:
+    streamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The stream, as event.stream_id names it, for example LIC-A:all.
+      schema: { type: string, minLength: 1 }
+  schemas:
+    Accepted:
+      type: object
+      required: [stream_id, accepted_through, duplicates]
+      properties:
+        stream_id: { type: string }
+        accepted_through: { type: integer, description: The last sequence accepted. }
+        duplicates: { type: integer, description: Lines that repeated an accepted sequence with identical bytes. }
+    Conflict:
+      type: object
+      required: [stream_id, sequence, accepted_through]
+      properties:
+        stream_id: { type: string }
+        sequence: { type: integer, description: The sequence that repeats with different bytes. }
+        accepted_through: { type: integer }
+    SchemaFailure:
+      type: object
+      required: [stream_id, failing_sequences]
+      properties:
+        stream_id: { type: string }
+        failing_sequences:
+          type: array
+          items:
+            type: object
+            required: [sequence, errors]
+            properties:
+              sequence: { type: integer }
+              errors: { type: array, items: { type: string } }
+  securitySchemes:
+    mutualTLS:
+      type: mutualTLS
+    bearerAuth:
+      type: http
+      scheme: bearer

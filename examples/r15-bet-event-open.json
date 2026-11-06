@@ -1,0 +1,18 @@
+{
+  "bet_id": "BET-2027-01-14-000184",
+  "player_ref": "P-20931",
+  "player_ref_scope": "exampleplay",
+  "product_line": "SPORTS-PREMATCH-LIVE",
+  "channel": "online",
+  "currency": "EUR",
+  "stake": "25.00",
+  "placed_at": "2027-01-14T18:41:07+01:00",
+  "status": "open",
+  "jurisdiction_category": "betting",
+  "game_ref": "EVT-2027-01-14-0931:match_winner",
+  "odds": "2.40",
+  "ledger_entry_refs": [
+    "LE-2027-01-14-551200"
+  ],
+  "evidence_ref": "BET-LOG-2027-01-14"
+}

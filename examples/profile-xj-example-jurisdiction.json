@@ -320,9 +320,24 @@
             "R10",
             "R11",
             "R13",
-            "R14"
+            "R14",
+            "R15"
           ],
           "transaction_extract": "full"
+        },
+        {
+          "mode": "continuous",
+          "cadence": "real_time",
+          "record_types": [
+            "R3",
+            "R4",
+            "R5",
+            "R8",
+            "R9",
+            "R13",
+            "R15"
+          ],
+          "channel": "Example Gambling Authority stream endpoint (fictional), as in stream/openapi.yaml"
         },
         {
           "mode": "on_demand",
@@ -348,7 +363,20 @@
         "jsonl"
       ],
       "report_references_in_packages": "counts_only",
-      "minimum_conformance_level": "level_3"
+      "minimum_conformance_level": "level_3",
+      "mode": "both",
+      "latency": {
+        "R3": "PT60S",
+        "R4": "PT60S",
+        "R5": "PT5M",
+        "R8": "PT1H",
+        "R9": "PT0S",
+        "R13": "P1D",
+        "R15": "PT60S"
+      },
+      "checkpoint": "gaming_day",
+      "bet_level": true,
+      "transport": "push"
     },
     "cross_operator_limits": {
       "reading": "stated",
@@ -555,5 +583,5 @@
   "sources": [
     "None. This profile is fictional and cites no real source."
   ],
-  "notes": "Example profile for the CTRES schema package. XJ is an ISO 3166-1 user-assigned code. Every authority, register, threshold and deadline in this file is invented for illustration and describes no real jurisdiction. Version 1.1.0 of this profile adds the Revenue and levy block, a levy_return report trigger, R13 and R14 in the periodic package and a minimum conformance level of level_3 Custody; it supersedes 1.0.0 from 1 January 2027."
+  "notes": "Example profile for the CTRES schema package. XJ is an ISO 3166-1 user-assigned code. Every authority, register, threshold and deadline in this file is invented for illustration and describes no real jurisdiction. Version 1.1.0 of this profile adds the Revenue and levy block, a levy_return report trigger, R13 and R14 in the periodic package, a minimum conformance level of level_3 Custody and, under §8.4, a submission mode of both (a stream with a checkpoint per gaming day and the period package), latencies per record type and bet-level data (R15); it supersedes 1.0.0 from 1 January 2027."
 }

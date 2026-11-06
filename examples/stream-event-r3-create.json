@@ -1,0 +1,43 @@
+{
+  "stream_id": "XJ-EGA-0001:all",
+  "sequence": 10482,
+  "emitted_at": "2027-01-14T18:40:07+01:00",
+  "licence_number": "XJ-EGA-0001",
+  "standard_version": "1.1",
+  "profile_id": "XJ",
+  "record_type": "R3",
+  "op": "create",
+  "record": {
+    "tx_id": "D-2027-01-14-000731",
+    "player_ref": "P-20931",
+    "player_ref_scope": "exampleplay",
+    "direction": "deposit",
+    "rail": "card",
+    "instrument_id": "I-77812",
+    "provider_id": "PSP-03",
+    "rail_reference_type": "acquirer_reference",
+    "rail_reference": "74987506291000123457001",
+    "amount": "50.00",
+    "currency_or_asset": "EUR",
+    "amount_reporting_ccy": "50.00",
+    "fx_rate": "1",
+    "fx_source": "same_as_reporting_currency",
+    "initiated_at": "2027-01-14T18:40:02+01:00",
+    "settled_at": "2027-01-15T06:00:00+01:00",
+    "credited_at": "2027-01-14T18:40:05+01:00",
+    "account_currency": "EUR",
+    "credited_amount": "50.00",
+    "ledger_entry_ref": "LE-2027-01-14-551190",
+    "fees": {
+      "currency_or_asset": "EUR",
+      "rail": "0.00",
+      "provider": "0.00",
+      "network": "0.00"
+    },
+    "check_ids": [
+      "C-2027-01-14-310221"
+    ],
+    "limit_check": "within_limit",
+    "outcome": "accepted"
+  }
+}
