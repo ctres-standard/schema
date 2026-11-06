@@ -2,7 +2,7 @@
 
 Versions follow §13 of the Standard: `MAJOR.MINOR` is the version of the Standard the schema implements, and `PATCH` corrects the schema without changing the record model. See [README.md](README.md#versioning).
 
-## 1.1.0 — 5 November 2026
+## 1.1.0 - 5 November 2026
 
 Implements CTRES v1.1: the record model of v1.0 extended for gaming revenue and the operator's levy, the conformance levels of §10 defined by scope, a bet-level record (R15 Bet Event, the Wagering module) and the streaming mode of §8.4, in which the same records travel one event per line as they occur, with a checkpoint per gaming day, while the period package remains the signed close of the period. Packages produced under 1.0 remain valid; they keep `standard_version` `1.0`.
 
@@ -27,11 +27,11 @@ Implements CTRES v1.1: the record model of v1.0 extended for gaming revenue and 
 * Every `$id` moves from `https://ctres.org/schema/1.0/` to `https://ctres.org/schema/1.1/`; references between files stay relative. Schema titles say v1.1.
 * The conformance levels are defined by scope (§10): a core (manifest, R3, R4, R7, R13) and the Custody (R1, R2, R6, R10, R11), Supervision (R5, R8, R9, R12) and Venue (R14) modules, added in four steps; the Wagering module (R15) is optional at every level. The former `level_1` to `level_3` of v1.0 (Records, Structured, Continuous), which described delivery maturity, are replaced; delivery is the manifest `submission_mode` of §8.1 and is independent of the level. Field requirements inside a record do not change with the level; at `level_1` and `level_2` a reference to a record type the level does not require is an identifier in the operator's own systems, present in the record and not resolved within the package. In a package that declares `standard_version` `1.0`, `conformance_level_declared` keeps its v1.0 meaning.
 
-## 1.0.1 — 3 November 2026
+## 1.0.1 - 3 November 2026
 
 - Descriptions only: references to a pre-release draft removed. No change to fields, requirements or validation.
 
-## 1.0.0 — 2026-10-05
+## 1.0.0 - 2026-10-05
 
 Draft for consultation. First release, implementing CTRES v1.0, universal edition (2 October 2026).
 

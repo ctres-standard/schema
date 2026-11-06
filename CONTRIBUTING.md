@@ -7,7 +7,7 @@ Thank you for reviewing the CTRES schema. This document describes how changes ar
 * **The text of the Standard is the source of truth.** A change to the record model (a new field, a new enumeration value, a change from optional to mandatory) is first a change to the text, proposed in [ctres-standard/spec](https://github.com/ctres-standard/spec). The schema follows once the text is settled.
 * **A schema that contradicts the text** is a defect. Report it here, quoting the section and the schema path.
 * **Jurisdiction profiles** for real jurisdictions are maintained by the editor with the authorities concerned (§5, §13) and are not accepted into this repository. Corrections to a profile go to the editor at <hello@ctres.org>. This repository defines only the structure of a profile, and its example profiles describe fictional jurisdictions.
-* **Validation beyond structure** — referential checks across records — belongs in [ctres-standard/validator-lite](https://github.com/ctres-standard/validator-lite).
+* **Validation beyond structure** - referential checks across records - belongs in [ctres-standard/validator-lite](https://github.com/ctres-standard/validator-lite).
 
 ## How to propose a change
 
